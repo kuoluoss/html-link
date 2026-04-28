@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>《你好，新蒸程》整合包 · 问答汇总</title>
+    <title>「你好，新蒸程」整合包 - 新手指南与常见问题 (FAQ)</title>
     <style>
         * {
             margin: 0;
@@ -12,246 +12,145 @@
         }
 
         body {
-            background: #f0f2f5;
-            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-            padding: 2rem 1.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7f6;
             color: #1e2a3e;
+            line-height: 1.6;
+            padding: 20px;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1000px;
             margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
         }
 
-        /* 头部区域 */
         .header {
-            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 2rem 2rem 1.5rem 2rem;
             text-align: center;
         }
 
         .header h1 {
             font-size: 2rem;
-            background: linear-gradient(135deg, #1f6e43, #2b8c5e);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-        }
-
-        .header .badge {
-            display: inline-block;
-            background: #e9ecef;
-            padding: 0.3rem 0.8rem;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            color: #2c5a3e;
-            margin-top: 0.6rem;
-            font-weight: 500;
-        }
-
-        .sub {
-            color: #4a627a;
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        /* 搜索过滤栏 */
-        .toolbar {
-            background: white;
-            border-radius: 28px;
-            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
-            margin-bottom: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-        }
-
-        .search-box {
-            flex: 3;
-            min-width: 180px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #f8fafc;
-            padding: 5px 12px;
-            border-radius: 40px;
-            margin: 6px 0;
-        }
-
-        .search-box i {
-            color: #7f8c8d;
-            font-style: normal;
-            font-weight: 400;
-            font-size: 1.1rem;
-        }
-
-        #searchInput {
-            border: none;
-            background: transparent;
-            padding: 10px 0;
-            width: 100%;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 6px 0;
-        }
-
-        .filter-chip {
-            background: #f1f5f9;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 32px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #1e293b;
-        }
-
-        .filter-chip.active {
-            background: #2b8c5e;
-            color: white;
-            box-shadow: 0 2px 6px rgba(43, 140, 94, 0.2);
-        }
-
-        .filter-chip:hover:not(.active) {
-            background: #e2e8f0;
-        }
-
-        /* 统计 */
-        .stats {
-            font-size: 0.85rem;
-            background: white;
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
-            display: inline-block;
-            margin-bottom: 1rem;
-            color: #2d3e50;
-        }
-
-        /* 表格卡片式设计（响应式，移动端友好） */
-        .qa-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .qa-card {
-            background: white;
-            border-radius: 1.25rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            transition: 0.2s;
-            border: 1px solid #eef2f6;
-            overflow: hidden;
-        }
-
-        .qa-card:hover {
-            box-shadow: 0 12px 20px -12px rgba(0, 0, 0, 0.15);
-            border-color: #dce5ec;
-        }
-
-        .card-header {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1rem 1.5rem;
-            background: #f9fbfd;
-            border-bottom: 1px solid #edf2f7;
-        }
-
-        .category-tag {
-            background: #eef2ff;
-            color: #1f6e43;
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 0.2rem 0.7rem;
-            border-radius: 30px;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
-        }
-
-        .question {
-            font-weight: 700;
-            font-size: 1rem;
-            color: #0f2b3d;
-            line-height: 1.4;
-            flex: 1;
-        }
-
-        .card-body {
-            padding: 1.2rem 1.5rem 1.5rem;
-        }
-
-        .answer {
-            color: #2c3f55;
-            line-height: 1.55;
-            font-size: 0.95rem;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-
-        .answer p {
             margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
         }
 
-        .answer ul, .answer ol {
-            padding-left: 1.4rem;
-            margin: 0.5rem 0;
+        .header p {
+            font-size: 1rem;
+            opacity: 0.9;
         }
 
-        hr {
-            margin: 0.8rem 0;
-            border: 0;
-            height: 1px;
-            background: #e9edf2;
+        .stats-banner {
+            background-color: #e8f0fe;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: #2c3e66;
+            border-bottom: 1px solid #dce4f0;
+        }
+
+        .stats-banner span {
+            font-weight: 600;
+            background-color: #d4e2fc;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #e2e8f0;
+            color: #1e3c72;
+        }
+
+        .card {
+            background-color: #f8fafc;
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 5px solid #2a5298;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #0f172a;
+        }
+
+        .card p, .card li {
+            color: #334155;
+        }
+
+        .card code, .cmd {
+            background-color: #e9ecef;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #d14;
+            word-break: break-all;
+        }
+
+        .warning {
+            background-color: #fff3e0;
+            border-left-color: #f59e0b;
+        }
+
+        .tip {
+            background-color: #e0f2fe;
+            border-left-color: #0ea5e9;
+        }
+
+        .bug {
+            background-color: #fee2e2;
+            border-left-color: #ef4444;
         }
 
         .footer {
+            background-color: #f1f5f9;
+            padding: 1.5rem;
             text-align: center;
-            margin-top: 3rem;
-            color: #5b6e8c;
             font-size: 0.8rem;
+            color: #475569;
             border-top: 1px solid #e2e8f0;
-            padding-top: 2rem;
         }
 
-        /* 无结果样式 */
-        .no-result {
-            text-align: center;
-            padding: 3rem;
-            background: white;
-            border-radius: 2rem;
-            color: #6c7a91;
-        }
-
-        @media (max-width: 650px) {
-            body {
+        @media (max-width: 640px) {
+            .content {
+                padding: 1.5rem;
+            }
+            .section-title {
+                font-size: 1.4rem;
+            }
+            .card {
                 padding: 1rem;
-            }
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .toolbar {
-                flex-direction: column;
-                align-items: stretch;
-                padding: 0.8rem;
-            }
-            .search-box {
-                width: auto;
-            }
-            .filter-buttons {
-                justify-content: center;
-                margin-top: 8px;
             }
         }
     </style>
@@ -259,187 +158,149 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>✈️ 《你好，新蒸程》整合包</h1>
-        <div class="badge">航空学 | VOXY | 机械动力 | 社区问答精选</div>
-        <div class="sub">基于玩家群聊整理 · 持续更新</div>
+        <h1>✈️ 「你好，新蒸程」整合包</h1>
+        <p>机械动力 · 航空学 · VOXY 超视距</p>
+        <p>发布日新手指南 & 常见问题解答 (群聊数据驱动版)</p>
     </div>
 
-    <div class="toolbar">
-        <div class="search-box">
-            <i>🔍</i>
-            <input type="text" id="searchInput" placeholder="搜索问题或关键词...">
+    <div class="stats-banner">
+        <div>📊 发布日群聊消息 <span>11,174条</span></div>
+        <div>🖼️ 发送图片/资源 <span>1,838个</span></div>
+        <div>👥 群成员增长 <span>800+</span></div>
+        <div>🎮 整合包版本 <span>1.21.1 / NeoForge</span></div>
+    </div>
+
+    <div class="content">
+        <!-- 一、快速入手 -->
+        <div class="section">
+            <div class="section-title">🚀 一、快速入手</div>
+            <div class="card">
+                <h3>1. 下载与安装</h3>
+                <p><strong>Q:</strong> 整合包在哪里下载？怎么安装？</p>
+                <p><strong>A:</strong> <strong>群文件</strong>内有两个版本：</p>
+                <ul>
+                    <li><code>你好新蒸程1.0.0全量客户端.zip</code> → 解压即玩，适合新手。</li>
+                    <li><code>你好，新蒸程！正式版 V1.0.0.zip</code> → 需要拖入 <strong>PCL2 / HMCL</strong> 启动器自动安装。</li>
+                </ul>
+                <p>⚠️ 必须安装 <strong>Java 21</strong>，启动器会提示，或使用群文件内的 <code>jdk-21_windows-x64_bin.exe</code>。</p>
+            </div>
+            <div class="card">
+                <h3>2. 必备环境与内存</h3>
+                <p>本整合包非常吃配置！推荐内存分配 <strong>12GB - 16GB</strong>。<br>
+                启动器设置: <code>PCL2</code> → 设置 → 启动器 → 游戏特定设置 → 最大内存/内存。</p>
+                <p>⚠️ <strong>警告</strong>：如果你只有8GB物理内存，请勿尝试！至少需要16GB物理内存才能流畅体验VOXY。</p>
+            </div>
         </div>
-        <div class="filter-buttons" id="filterButtons">
-            <button data-cat="all" class="filter-chip active">全部</button>
-            <button data-cat="基础与获取" class="filter-chip">📦 基础与获取</button>
-            <button data-cat="运行与优化" class="filter-chip">⚙️ 运行与优化</button>
-            <button data-cat="游戏内容与玩法" class="filter-chip">🎮 游戏内容与玩法</button>
-            <button data-cat="Bug与问题" class="filter-chip">🐞 Bug与问题</button>
-            <button data-cat="服务端与联机" class="filter-chip">🌐 服务端与联机</button>
-            <button data-cat="模组与投稿" class="filter-chip">🧩 模组与投稿</button>
+
+        <!-- 二、性能与地形 -->
+        <div class="section">
+            <div class="section-title">🌄 二、性能优化与地形加载 (VOXY)</div>
+            <div class="card tip">
+                <h3>🌟 推荐：直接使用“跑好的地图”</h3>
+                <p>自己用 <code>/chunky radius 2000</code> 指令预加载地图需要数小时，且极易崩溃！<br>
+                <strong>解决方案</strong>：下载群文件中的 <code>贝列瑞安德的原野.zip</code> 或 <code>贝列瑞安德的原野（小）.zip</code>，解压到你的 <code>.minecraft/saves</code> 文件夹即可。</p>
+            </div>
+            <div class="card">
+                <h3>VOXY 闪烁/崩溃/不生效</h3>
+                <p>常见原因及解决：</p>
+                <ul>
+                    <li><strong>显卡驱动过旧</strong>：更新或回退驱动版本。</li>
+                    <li><strong>内存分配不足</strong>：确保给了至少12GB。</li>
+                    <li><strong>Intel核显/I卡兼容问题</strong>：VOXY可能无法正常工作，建议关闭VOXY或删除 <code>voxy-*.jar</code>。</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>帧数很低，只有20-30帧</h3>
+                <p>首先，<strong>关掉光影</strong>。其次使用群内已加载好的地图。如果还卡，在视频设置里降低 <strong>渲染距离</strong> 到12以下，关闭 <strong>垂直同步</strong>。</p>
+            </div>
+        </div>
+
+        <!-- 三、游戏崩溃Bug修复 -->
+        <div class="section">
+            <div class="section-title">🐞 三、已知Bug & 崩溃修复</div>
+            <div class="card bug">
+                <h3>❌ 经验颗粒 / 附魔工业 按W思索崩溃</h3>
+                <p>这是 <code>Create Enchantment Industry</code> 模组的已知问题。<strong>千万不要按W思索经验颗粒</strong>。等待后续整合包更新。可暂时删除该模组，但会丢失相关玩法。</p>
+            </div>
+            <div class="card bug">
+                <h3>❌ 扳手 + 连锁采集 导致方块消失</h3>
+                <p>这是已知Bug，制作组已提供临时解决方案：安装模组 <code>Create Ultimine</code> 并移除冲突的采集键绑定。后续版本将修复。</p>
+            </div>
+            <div class="card bug">
+                <h3>❌ 传送石碑 / 抱起飞车 导致视角卡死或崩溃</h3>
+                <p><strong>Carry On</strong> 模组与载具交互时易崩溃，已知问题，正在修复。临时解决方法：避免使用该交互，或用撬棍回收载具。</p>
+            </div>
+            <div class="card">
+                <h3>🔧 其他崩溃提示</h3>
+                <p>遇到崩溃时，请将 <strong>错误报告（latest.log或crash-report）</strong> 发给AI分析（如DeepSeek、Claude），往往能得到最直接的解决线索。</p>
+            </div>
+        </div>
+
+        <!-- 四、常见玩法问答 -->
+        <div class="section">
+            <div class="section-title">🛠️ 四、游戏玩法 & 指令</div>
+            <div class="card">
+                <h3>🚗 开局送的车怎么收起来/坏了怎么办？</h3>
+                <p>用 <strong>撬棍</strong>（两个铁锭合成）。对着车 <code>Shift + 右键</code> 即可将其收为道具。如果翻到沟里，也是用撬棍回收。</p>
+            </div>
+            <div class="card">
+                <h3>🔌 为什么无线红石/遥控器在船上无效？</h3>
+                <p>在物理化结构上，请使用 <strong>无线打字机</strong> 代替遥控器，或在配置文件里修改设定。</p>
+            </div>
+            <div class="card">
+                <h3>📦 简易存储 / 终端面板在哪？</h3>
+                <p>模组改名为 <code>Tom's Simple Storage</code>，配方和以前略有不同，请用JEI查询合成表。</p>
+            </div>
+            <div class="card">
+                <h3>👗 工程师护目镜不能装备到饰品栏？</h3>
+                <p>这是个Bug，可能和饰品模组（Curios API）不兼容，等待修复。目前只能放在普通头盔位。</p>
+            </div>
+        </div>
+
+        <!-- 五、服务器联机 -->
+        <div class="section">
+            <div class="section-title">🌐 五、服务端与联机</div>
+            <div class="card tip">
+                <h3>服务端文件</h3>
+                <p>群文件已有：<code>新蒸程1.0.0服务端.zip</code>。<br>
+                <strong>配置要求</strong>：至少4核 4.5GHz+ CPU，分配12GB+ 内存。<br>
+                <strong>注意</strong>：服务端不自带地图，需自行上传跑好的存档。VOXY是客户端模组，服务器无需配置，但玩家本地需要已加载的缓存。</p>
+            </div>
+            <div class="card">
+                <h3>我跟朋友局域网联机，朋友也要跑图吗？</h3>
+                <p>不需要跑图！主机跑好图后，把本地存档里的 <code>.voxy</code> 隐藏文件夹发给朋友，覆盖到他电脑的对应存档内即可继承超视距渲染，详情B站搜索VOXY使用教程。</p>
+            </div>
+            <div class="card">
+                <h3>正版验证失败 / 无效会话</h3>
+                <p>服务器开启了正版验证。你需要在启动器登录正版账号，或让服主在 <code>server.properties</code> 中设置 <code>online-mode=false</code>（但请注意风险）。</p>
+            </div>
+        </div>
+
+        <!-- 六、其他补充 -->
+        <div class="section">
+            <div class="section-title">💡 六、来自管理组的特别提醒</div>
+            <div class="card warning">
+                <h3>❗ 进群请先看公告和群文件</h3>
+                <p>管理组也是学生/上班族，发布日当天高强度回答超过10小时，请体谅。在提问前，不妨先：</p>
+                <ul>
+                    <li>使用 <code>@Q群管家</code> 查询自动回复。</li>
+                    <li>搜索群聊天记录关键词（如“内存”、“崩溃”、“撬棍”）。</li>
+                    <li>阅读本页面更新的内容。</li>
+                </ul>
+                <p>你的一个小搜索，能节省大家无数时间。</p>
+            </div>
+            <div class="card">
+                <h3>✈️ 关于“航空学”投稿</h3>
+                <p>欢迎大家将自己的载具蓝图投稿给制作组，有机会收录进官方下载列表。实用性和美观性兼具的载具最受欢迎！</p>
+            </div>
         </div>
     </div>
 
-    <div class="stats" id="stats">加载中...</div>
-
-    <div id="qaContainer" class="qa-grid">
-        <!-- 动态渲染问答卡片 -->
-    </div>
     <div class="footer">
-        💡 提示：点击分类筛选 | 整合包最新资讯请留意群公告 · 感谢所有为爱发电的 contributors
+        <p>本指南基于「你好，新蒸程」整合包发布日群聊数据（11,174条消息）重新整理。<br>
+        数据时间：2026-04-28 | 版本：1.0.0 | 祝你玩得愉快，天空无界限！</p>
+        <p style="margin-top: 10px;">问题依然无法解决？请带上具体截图与错误报告，在群内提问。</p>
     </div>
 </div>
-
-<script>
-    // ----- 表格数据（基于提供的excel内容）-----
-    const qaData = [
-        { category: "基础与获取", question: "整合包在哪里下载？", answer: "1. 主要方式：QQ群文件。\n2. 备用方式：夸克网盘（但曾多次出现文件被吞的情况，不稳定）。" },
-        { category: "基础与获取", question: "夸克网盘的整合包或存档文件是空的/被吞了怎么办？", answer: "请直接前往QQ群文件下载。群文件内有整合包本体、服务端和已经预加载好的地图存档。" },
-        { category: "基础与获取", question: "怎么安装这个整合包？", answer: "1. 推荐使用 PCL2 启动器。将下载好的整合包压缩包（.zip）直接拖入PCL2界面即可自动安装。\n2. 群内也提供了“全量客户端”，下载解压后可直接使用。" },
-        { category: "基础与获取", question: "这个整合包是基于哪个Minecraft版本的？", answer: "Minceraft 1.21.1（正式版）。" },
-        { category: "基础与获取", question: "这个整合包是免费的吗？", answer: "是的，完全免费。制作组和热心群友均为用爱发电。" },
-        { category: "运行与优化", question: "玩这个整合包需要多少运行内存（RAM）？", answer: "建议分配12GB或以上。最低8GB可能会非常卡顿或崩溃。" },
-        { category: "运行与优化", question: "为什么我进游戏非常卡，帧数很低？", answer: "1. 分配的内存不足：请检查并增加PCL2启动器的内存分配，至少12G。\n2. 正在加载地图：首次进入或未使用预加载地图，游戏会在后台生成地形，导致卡顿。建议使用群文件里预加载好的存档。\n3. 配置较低：可以尝试关闭光影、关闭VOXY模组。" },
-        { category: "运行与优化", question: "VOXY模组是什么？有什么用？", answer: "VOXY是一个客户端模组，它能加载和显示极远距离（最远数千格）的地形，让你看到史诗级的远景。它需要配合`Chunky`模组预先生成地形数据。" },
-        { category: "运行与优化", question: "如何使用VOXY加载超远视距地形？", answer: "1. 简单方法：直接下载并使用群文件里已经跑好的地图存档。\n2. 自己动手：在游戏内依次输入指令：\n   `/chunky center` (设置中心)\n   `/chunky radius <半径>` (设置范围，如2000)\n   `/chunky shape square`\n   `/chunky start`\n   `/chunky confirm`\n   等待加载完成后，再输入 `/voxy import <存档名字>`。" },
-        { category: "运行与优化", question: "我的VOXY加载到一半游戏崩溃/卡死了怎么办？", answer: "1. 检查内存：确保为游戏分配了至少12GB内存，加载超大地形内存占用会很高。\n2. 降低范围：尝试先加载较小的半径（如1000格），成功后再扩大范围。\n3. 使用现成存档：这是最省心省力的方式。" },
-        { category: "运行与优化", question: "我该用什么光影？为什么有些光影会出错？", answer: "1. 整合包自带和群文件里提供了多个兼容VOXY的光影包（如Photon），可以尝试更换。\n2. 兼容性问题：部分光影（如Derivative）已停更或与VOXY、YSM（模型模组）等模组存在兼容性问题，可能导致菜单空白或游戏崩溃。" },
-        { category: "游戏内容与玩法", question: "开局送的那辆车怎么收起来/打掉？", answer: "使用同模组的“撬棍”。" },
-        { category: "游戏内容与玩法", question: "任务奖励的飞机/飞艇怎么飞？", answer: "将烈焰蛋糕放入引擎中作为燃料。" },
-        { category: "游戏内容与玩法", question: "物理结构（飞船/汽车）上的无线红石遥控器用不了怎么办？", answer: "这是物理化后的已知兼容问题。可以改用无线打字机代替，或者自行研究配置文件修改方法。" },
-        { category: "游戏内容与玩法", question: "游戏内的“经验颗粒”怎么一按W键（思索）就崩溃了？", answer: "这是已知的BUG，可能是模组兼容性问题。目前不建议对经验颗粒使用“思索”功能，等待后续修复。" },
-        { category: "游戏内容与玩法", question: "我想要存储模组（如AE2），整合包里有吗？", answer: "包内没有。你可以自行添加，但因此产生的任何崩溃或兼容性问题，需要自己负责解决，制作组不提供支持。" },
-        { category: "游戏内容与玩法", question: "为什么我把“传送石碑”物理化后就崩游戏了？", answer: "这也是一个已知问题。有社区Mod可以解决兼容性问题（如Waystones-Sable），可自行添加测试。" },
-        { category: "Bug与问题", question: "游戏启动时报错“missing tacz”怎么办？", answer: "不用管它。因为TACZ枪械模组与当前整合包存在兼容性问题，作者已暂时将其删除等待修复，这个报错不影响正常游戏。" },
-        { category: "Bug与问题", question: "用扳手加连锁采集，回收机械动力物品会直接消失？", answer: "这是已知BUG。作者建议安装 create ultimine 模组来解决，后续版本会补装。" },
-        { category: "Bug与问题", question: "“简易存储”模组的合成配方怎么和我以前玩的不一样？", answer: "作者为该模组更换了材质包，所以外观和配方感觉不一样，但核心功能是一样的。合成终端在游戏里叫“合成器”。" },
-        { category: "Bug与问题", question: "游戏内光影设置界面是空白的，但可以盲点进入？", answer: "这通常是因为添加了YSM（模型模组）与Iris光影模组的UI渲染冲突导致的。可尝试删除YSM或等待修复补丁。" },
-        { category: "服务端与联机", question: "服务端什么时候出？", answer: "群文件已经发布了服务端。" },
-        { category: "服务端与联机", question: "开服务端需要什么配置？", answer: "建议4核及以上CPU，主频4.5GHz以上，分配至少12GB运行内存（系统总内存需大于12G）。" },
-        { category: "服务端与联机", question: "我和朋友联机，他也要加载VOXY地图吗？", answer: "不需要，VOXY是纯客户端模组。你可以把加载好的.voxy文件夹（位于存档目录下）发给你的朋友，让他放到自己客户端对应位置即可。" },
-        { category: "模组与投稿", question: "整合包里能自己加别的模组（MOD）吗？", answer: "可以，但是后果自负。添加模组后出现的任何崩溃或问题，需要自己解决，制作组没有义务提供支持。" },
-        { category: "模组与投稿", question: "航空学模组的载具可以自己设计然后投稿吗？", answer: "可以。可以联系管理@Turin·Turambar进行投稿，被选中的载具可能会被加入官方“可兑换载具”库中。" }
-    ];
-
-    // 辅助：将文本中的换行和简单列表转换为html段落
-    function formatAnswer(text) {
-        if (!text) return "";
-        // 先转义HTML
-        let safe = text.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-        // 将换行替换为 <br>，同时识别简单序号如 "1. " 加强显示
-        let lines = safe.split(/\r?\n/);
-        let formatted = '';
-        for(let line of lines) {
-            line = line.trim();
-            if(line === "") {
-                formatted += '<br>';
-                continue;
-            }
-            // 识别以数字加点或 - 开头的行当做列表项样式
-            if(/^\d+\./.test(line) || /^[\-\*]\s/.test(line)) {
-                formatted += `<div style="margin-left: 1rem; margin-top: 0.2rem;">• ${line.replace(/^[\d\.\-\*]+\s*/, '')}</div>`;
-            } else {
-                formatted += `<div style="margin-bottom: 0.3rem;">${line}</div>`;
-            }
-        }
-        // 对没有被列表包裹的段落进行简单包裹
-        if (!formatted.includes('<div style="margin-left: 1rem;')) {
-            formatted = `<div>${safe.replace(/\n/g, '<br>')}</div>`;
-        }
-        return formatted;
-    }
-
-    // 渲染卡片
-    function renderCards(filterCat, searchTerm) {
-        const container = document.getElementById('qaContainer');
-        const statsSpan = document.getElementById('stats');
-        let filtered = qaData;
-
-        // 分类过滤
-        if (filterCat !== 'all') {
-            filtered = filtered.filter(item => item.category === filterCat);
-        }
-        // 关键词搜索 (问题 + 答案)
-        if (searchTerm.trim() !== '') {
-            const term = searchTerm.trim().toLowerCase();
-            filtered = filtered.filter(item => 
-                item.question.toLowerCase().includes(term) || 
-                item.answer.toLowerCase().includes(term)
-            );
-        }
-
-        // 更新统计
-        statsSpan.innerText = `📄 共 ${filtered.length} 条问答  (总 ${qaData.length} 条)`;
-
-        if (filtered.length === 0) {
-            container.innerHTML = `<div class="no-result">😥 没有找到相关问答，试试其他关键词或清空筛选～</div>`;
-            return;
-        }
-
-        let html = '';
-        for (let item of filtered) {
-            html += `
-                <div class="qa-card">
-                    <div class="card-header">
-                        <span class="category-tag">${escapeHtml(item.category)}</span>
-                        <div class="question">❓ ${escapeHtml(item.question)}</div>
-                    </div>
-                    <div class="card-body">
-                        <div class="answer">${formatAnswer(item.answer)}</div>
-                    </div>
-                </div>
-            `;
-        }
-        container.innerHTML = html;
-    }
-
-    function escapeHtml(str) {
-        if (!str) return "";
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
-        });
-    }
-
-    // 状态管理
-    let currentCategory = 'all';
-    let currentSearch = '';
-
-    // 搜索输入防抖
-    let debounceTimer;
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', function(e) {
-        clearTimeout(debounceTimer);
-        currentSearch = e.target.value;
-        debounceTimer = setTimeout(() => {
-            renderCards(currentCategory, currentSearch);
-        }, 200);
-    });
-
-    // 分类按钮事件
-    const filterBtns = document.querySelectorAll('.filter-chip');
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const cat = this.getAttribute('data-cat');
-            currentCategory = cat;
-            // 更新按钮激活样式
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            renderCards(currentCategory, currentSearch);
-        });
-    });
-
-    // 初始渲染
-    renderCards('all', '');
-</script>
 </body>
 </html>
