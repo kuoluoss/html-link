@@ -276,6 +276,7 @@ window.QA_DATA = [
         question: "为什么我用群文件的地图存档不刷新动物？",
         answer: "制作组忘了打指令，输入下这个指令就行 /gamerule doMobSpawning true。",
         keywords: ["动物", "刷动物", "存档", "地图", "群文件"]
+	}
 ];
 
 // 兼容旧版代码：如果旧模块还在读取 window.qaData，也能正常工作
