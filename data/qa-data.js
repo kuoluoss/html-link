@@ -270,7 +270,12 @@ window.QA_DATA = [
         question: "我设计了一个载具，怎么投稿？",
         answer: "联系管理 @Turin·Turambar。\n\n投稿的载具应该是以 .nbt 格式保存的蓝图文件。请确保你的设计是原创且功能完善的，生存可用的载具更受欢迎。",
         keywords: ["载具", "投稿", "nbt", "蓝图", "Turin", "Turambar"]
-    }
+    },
+	{
+        category: "Bug与问题",
+        question: "为什么我用群文件的地图存档不刷新动物？",
+        answer: "制作组忘了打指令，输入下这个指令就行 /gamerule doMobSpawning true。",
+        keywords: ["动物", "刷动物", "存档", "地图", "群文件"]
 ];
 
 // 兼容旧版代码：如果旧模块还在读取 window.qaData，也能正常工作
