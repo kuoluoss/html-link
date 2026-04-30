@@ -810,3 +810,33 @@ code {
         width: 100%;
     }
 }
+.visit-counter-box {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #d8e5ef;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    color: #39556b;
+    font-size: 14px;
+}
+
+.visit-counter-box strong {
+    color: #008f6b;
+    font-weight: 700;
+}
+.visit-counter-box {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #d8e5ef;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    color: #39556b;
+    font-size: 14px;
+}
+
+.visit-counter-box strong {
+    color: #008f6b;
+    font-weight: 700;
+}
