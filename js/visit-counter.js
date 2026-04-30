@@ -1,83 +1,77 @@
-window.VisitCounter = (() => {
-    const CONFIG = {
-        apiUrl: "https://throbbing-hill-4a66.sansanjx.workers.dev/visit?site=qce-v5-faq-page",
+(function () {
+    var CONFIG = {
+        apiUrl: "https://throbbing-hill-4a66.sansanjx.workers.dev/visit",
         siteId: "qce-v5-faq-page",
         timeout: 8000
     };
 
     function setText(id, text) {
-        const el = document.getElementById(id);
+        var el = document.getElementById(id);
         if (el) {
             el.textContent = text;
         }
     }
 
-    function formatNumber(value) {
-        const number = Number(value);
-
-        if (Number.isNaN(number)) {
-            return value;
-        }
-
-        return number.toLocaleString("zh-CN");
+    function showFailed() {
+        setText("total-visits", "统计失败");
+        setText("today-visits", "统计失败");
     }
 
-    async function fetchWithTimeout(url, timeout) {
-        const controller = new AbortController();
-
-        const timer = setTimeout(() => {
-            controller.abort();
-        }, timeout);
-
-        try {
-            const response = await fetch(url, {
-                method: "GET",
-                cache: "no-store",
-                signal: controller.signal
-            });
-
-            clearTimeout(timer);
-            return response;
-        } catch (error) {
-            clearTimeout(timer);
-            throw error;
-        }
-    }
-
-    async function init() {
-        const totalEl = document.getElementById("totalVisitCount");
-        const todayEl = document.getElementById("todayVisitCount");
-
-        if (!totalEl && !todayEl) {
+    function updateCounter(data) {
+        if (!data) {
+            showFailed();
             return;
         }
 
-        try {
-            const url = `${CONFIG.apiUrl}?site=${encodeURIComponent(CONFIG.siteId)}`;
+        if (typeof data.total !== "undefined") {
+            setText("total-visits", data.total);
+        }
 
-            const response = await fetchWithTimeout(url, CONFIG.timeout);
-
-            if (!response.ok) {
-                throw new Error(`访问量接口请求失败：${response.status}`);
-            }
-
-            const data = await response.json();
-
-            setText("totalVisitCount", formatNumber(data.total || 0));
-            setText("todayVisitCount", formatNumber(data.today || 0));
-        } catch (error) {
-            console.error("访问量统计失败：", error);
-
-            setText("totalVisitCount", "统计失败");
-            setText("todayVisitCount", "统计失败");
+        if (typeof data.today !== "undefined") {
+            setText("today-visits", data.today);
         }
     }
 
-    return {
-        init
-    };
-})();
+    function requestByXHR(url) {
+        var xhr = new XMLHttpRequest();
 
-document.addEventListener("DOMContentLoaded", () => {
-    VisitCounter.init();
-});
+        xhr.open("GET", url, true);
+        xhr.timeout = CONFIG.timeout;
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        var data = JSON.parse(xhr.responseText);
+                        updateCounter(data);
+                    } catch (e) {
+                        showFailed();
+                    }
+                } else {
+                    showFailed();
+                }
+            }
+        };
+
+        xhr.onerror = function () {
+            showFailed();
+        };
+
+        xhr.ontimeout = function () {
+            showFailed();
+        };
+
+        xhr.send(null);
+    }
+
+    function initVisitCounter() {
+        var url = CONFIG.apiUrl + "?site=" + encodeURIComponent(CONFIG.siteId) + "&t=" + new Date().getTime();
+        requestByXHR(url);
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initVisitCounter);
+    } else {
+        initVisitCounter();
+    }
+})();
