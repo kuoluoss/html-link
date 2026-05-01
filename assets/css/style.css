@@ -840,3 +840,98 @@ code {
     color: #008f6b;
     font-weight: 700;
 }
+/* AI问题助手聊天样式 */
+
+.ai-message {
+    max-width: 88%;
+    padding: 14px 16px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    line-height: 1.75;
+}
+
+.ai-message-name {
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.ai-message-content {
+    color: #334155;
+    white-space: normal;
+}
+
+.ai-message-user {
+    align-self: flex-end;
+    background: #168957;
+    color: #ffffff;
+    border-color: #168957;
+}
+
+.ai-message-user .ai-message-name,
+.ai-message-user .ai-message-content {
+    color: #ffffff;
+}
+
+.ai-message-assistant {
+    align-self: flex-start;
+    background: #f8fafc;
+    color: #334155;
+}
+
+.chat-result-box {
+    max-height: 420px;
+    overflow-y: auto;
+    margin-bottom: 18px;
+}
+
+.chat-input-row button:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+#chatUploadBtn {
+    border: 1px solid #b7e4cc;
+    background: #f0fff7;
+    color: #00875a;
+    border-radius: 12px;
+    padding: 0 14px;
+    height: 44px;
+    cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#chatUploadBtn:hover {
+    background: #dcfce7;
+}
+
+.attachment-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.attachment-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f0fff7;
+    border: 1px solid #b7e4cc;
+    color: #047857;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+.attachment-item button {
+    border: none;
+    background: transparent;
+    color: #ef4444;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.attachment-item button:hover {
+    color: #b91c1c;
+}
