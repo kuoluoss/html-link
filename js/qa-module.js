@@ -12,9 +12,9 @@
         filteredData: [],
         categories: [],
         activeCategory: "全部",
-        searchValue: "",
+        searchText: "",
 
-        elements: {
+        els: {
             list: null,
             categoryBox: null,
             searchInput: null,
@@ -22,88 +22,95 @@
         },
 
         init(options = {}) {
-            this.config = {
-                ...this.config,
-                ...options
-            };
+            this.config = Object.assign({}, this.config, options);
 
-            this.data = Array.isArray(window.QA_DATA)
-                ? window.QA_DATA
-                : (Array.isArray(window.qaData) ? window.qaData : []);
+            this.els.list = document.querySelector(this.config.listSelector);
+            this.els.categoryBox = document.querySelector(this.config.categorySelector);
+            this.els.searchInput = document.querySelector(this.config.searchSelector);
+            this.els.clearBtn = document.querySelector(this.config.clearSelector);
 
-            this.elements.list = document.querySelector(this.config.listSelector);
-            this.elements.categoryBox = document.querySelector(this.config.categorySelector);
-            this.elements.searchInput = document.querySelector(this.config.searchSelector);
-            this.elements.clearBtn = document.querySelector(this.config.clearSelector);
-
-            if (!this.elements.list) {
-                console.error("QAModule: 找不到问答列表容器");
+            if (!this.els.list) {
+                console.error("QAModule 初始化失败：找不到问答列表容器");
                 return;
             }
 
+            this.data = this.getQAData();
             this.buildCategories();
             this.bindEvents();
-            this.applyFilterAndRender();
+            this.applyFilter();
+        },
+
+        getQAData() {
+            if (Array.isArray(window.QA_DATA)) return window.QA_DATA;
+            if (Array.isArray(window.qaData)) return window.qaData;
+            if (Array.isArray(window.QAData)) return window.QAData;
+
+            console.warn("QAModule：没有找到 QA_DATA / qaData / QAData");
+            return [];
         },
 
         buildCategories() {
             const set = new Set();
+
             this.data.forEach(item => {
                 if (item && item.category) {
                     set.add(item.category);
                 }
             });
 
-            this.categories = ["全部", ...Array.from(set)];
+            this.categories = ["全部"].concat(Array.from(set));
         },
 
         bindEvents() {
-            if (this.elements.searchInput) {
-                this.elements.searchInput.addEventListener("input", (e) => {
-                    this.searchValue = String(e.target.value || "").trim();
-                    this.applyFilterAndRender();
+            if (this.els.searchInput) {
+                this.els.searchInput.addEventListener("input", () => {
+                    this.searchText = this.els.searchInput.value.trim();
+                    this.applyFilter();
                 });
             }
 
-            if (this.elements.clearBtn) {
-                this.elements.clearBtn.addEventListener("click", () => {
-                    this.searchValue = "";
-                    if (this.elements.searchInput) {
-                        this.elements.searchInput.value = "";
-                    }
+            if (this.els.clearBtn) {
+                this.els.clearBtn.addEventListener("click", () => {
+                    this.searchText = "";
                     this.activeCategory = "全部";
-                    this.applyFilterAndRender();
+
+                    if (this.els.searchInput) {
+                        this.els.searchInput.value = "";
+                    }
+
+                    this.applyFilter();
                 });
             }
         },
 
-        applyFilterAndRender() {
-            const search = this.searchValue.toLowerCase();
+        applyFilter() {
+            const keyword = this.searchText.toLowerCase();
 
             this.filteredData = this.data.filter(item => {
                 if (!item) return false;
 
-                const categoryMatch =
+                const category = String(item.category || "");
+                const question = String(item.question || "");
+                const answer = String(item.rawAnswer || item.answer || item.answerHtml || "");
+                const keywords = Array.isArray(item.keywords) ? item.keywords.join(" ") : "";
+
+                const matchCategory =
                     this.activeCategory === "全部" ||
-                    item.category === this.activeCategory;
+                    category === this.activeCategory;
 
-                if (!categoryMatch) return false;
+                if (!matchCategory) return false;
 
-                if (!search) return true;
+                if (!keyword) return true;
 
-                const question = String(item.question || "").toLowerCase();
-                const category = String(item.category || "").toLowerCase();
-                const answer = String(item.rawAnswer || item.answer || "").toLowerCase();
-                const keywords = Array.isArray(item.keywords)
-                    ? item.keywords.join(" ").toLowerCase()
-                    : "";
+                // keywords 只参与搜索，不显示到页面上
+                const searchBody = [
+                    category,
+                    question,
+                    answer,
+                    keywords
+                ].join(" ").toLowerCase();
 
-                return (
-                    question.includes(search) ||
-                    category.includes(search) ||
-                    answer.includes(search) ||
-                    keywords.includes(search)
-                );
+                return searchBody.includes(keyword);
             });
 
             this.renderCategories();
@@ -111,96 +118,112 @@
         },
 
         renderCategories() {
-            if (!this.elements.categoryBox) return;
+            if (!this.els.categoryBox) return;
 
-            this.elements.categoryBox.innerHTML = "";
+            this.els.categoryBox.innerHTML = "";
 
             this.categories.forEach(category => {
-                const btn = document.createElement("button");
-                btn.type = "button";
-                btn.className = "category-btn" + (category === this.activeCategory ? " active" : "");
-                btn.textContent = category;
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "category-btn";
+                button.textContent = category;
 
-                btn.addEventListener("click", () => {
+                if (category === this.activeCategory) {
+                    button.classList.add("active");
+                }
+
+                button.addEventListener("click", () => {
                     this.activeCategory = category;
-                    this.applyFilterAndRender();
+                    this.applyFilter();
                 });
 
-                this.elements.categoryBox.appendChild(btn);
+                this.els.categoryBox.appendChild(button);
             });
         },
 
         renderList() {
-            const list = this.elements.list;
-            if (!list) return;
+            if (!this.els.list) return;
 
-            list.innerHTML = "";
+            this.els.list.innerHTML = "";
 
             if (!this.filteredData.length) {
                 const empty = document.createElement("div");
                 empty.className = "qa-empty";
-                empty.textContent = "没有找到匹配的问答。";
-                list.appendChild(empty);
+                empty.textContent = "没有找到相关问答。";
+                this.els.list.appendChild(empty);
                 return;
             }
 
             this.filteredData.forEach(item => {
-                const card = document.createElement("div");
-                card.className = "qa-card";
+                this.els.list.appendChild(this.createQAItem(item));
+            });
+        },
 
+        createQAItem(item) {
+            /*
+             * 显示顺序：
+             * 1. 分类标签
+             * 2. 问题
+             * 3. 答案
+             *
+             * keywords 不显示。
+             */
+            const wrap = document.createElement("div");
+            wrap.className = "qa-item";
+
+            // 分类标签放最上面
+            if (item.category) {
                 const category = document.createElement("div");
                 category.className = "qa-category";
-                category.textContent = item.category || "未分类";
+                category.textContent = item.category;
+                wrap.appendChild(category);
+            }
 
-                const question = document.createElement("h3");
-                question.className = "qa-question";
-                question.textContent = item.question || "";
+            const question = document.createElement("div");
+            question.className = "qa-question";
+            question.textContent = item.question || "";
+            wrap.appendChild(question);
 
-                const answer = document.createElement("div");
-                answer.className = "qa-answer";
+            const answer = document.createElement("div");
+            answer.className = "qa-answer";
 
-                // 这里是关键：使用 innerHTML 才能让 <a> 可点击
-                // 同时把换行转成 <br>，不然显示会挤成一行
-                const answerHtml = item.answerHtml || this.linkify(String(item.answer || ""));
-                answer.innerHTML = this.preserveLineBreaks(answerHtml);
+            const answerText =
+                item.answerHtml ||
+                item.rawAnswer ||
+                item.answer ||
+                "";
 
-                card.appendChild(category);
-                card.appendChild(question);
-                card.appendChild(answer);
+            answer.innerHTML = this.renderAnswer(answerText, Boolean(item.answerHtml));
+            wrap.appendChild(answer);
 
-                if (Array.isArray(item.keywords) && item.keywords.length) {
-                    const keywordBox = document.createElement("div");
-                    keywordBox.className = "qa-keywords";
-
-                    item.keywords.forEach(keyword => {
-                        const tag = document.createElement("span");
-                        tag.className = "qa-keyword";
-                        tag.textContent = keyword;
-                        keywordBox.appendChild(tag);
-                    });
-
-                    card.appendChild(keywordBox);
-                }
-
-                list.appendChild(card);
-            });
+            return wrap;
         },
 
-        preserveLineBreaks(html) {
-            return String(html).replace(/\n/g, "<br>");
+        renderAnswer(value, isHtml) {
+            let html;
+
+            if (isHtml) {
+                html = String(value || "");
+            } else {
+                html = this.escapeHtml(String(value || ""));
+                html = this.autoLink(html);
+            }
+
+            html = html.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+            html = html.replace(/\n/g, "<br>");
+
+            return html;
         },
 
-        linkify(text) {
-            const escaped = this.escapeHtml(text);
-            const urlRegex = /(https?:\/\/[^\s<]+)/g;
-
-            return escaped.replace(urlRegex, function (url) {
-                return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-            });
+        autoLink(html) {
+            return html.replace(
+                /(https?:\/\/[^\s<>"']+)/g,
+                '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+            );
         },
 
-        escapeHtml(str) {
-            return String(str)
+        escapeHtml(text) {
+            return String(text)
                 .replace(/&/g, "&amp;")
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;")
