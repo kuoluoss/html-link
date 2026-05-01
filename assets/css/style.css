@@ -935,3 +935,56 @@ code {
 .attachment-item button:hover {
     color: #b91c1c;
 }
+/* 问答卡片整体 */
+.qa-item {
+    padding: 18px;
+    margin-bottom: 14px;
+    border: 1px solid #d8e6ef;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+/* 分类标签 */
+.qa-category {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #e8f8f0;
+    color: #008866;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* 问题区域 */
+.qa-question {
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: #f0f7ff;
+    color: #003b66;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.7;
+}
+
+/* 答案区域 */
+.qa-answer {
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #001f3f;
+    font-size: 15px;
+    line-height: 1.8;
+    border-left: 4px solid #0f8f61;
+}
+
+/* 答案里的链接 */
+.qa-answer a {
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+.qa-answer a:hover {
+    color: #004999;
+}
