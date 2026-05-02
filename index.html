@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你好，新蒸程 - 问答与问题诊断</title>
+
+    <link rel="stylesheet" href="assets/css/style.css?v=40">
+
+    <script src="data/changelog.js?v=40" defer></script>
+    <script src="data/qa-data.js?v=40" defer></script>
+
+    <script src="js/utils.js?v=40" defer></script>
+    <script src="js/changelog-module.js?v=40" defer></script>
+    <script src="js/qa-module.js?v=40" defer></script>
+    <script src="js/expert-module.js?v=40" defer></script>
+    <script src="js/chat-module.js?v=40" defer></script>
+    <script src="js/main.js?v=40" defer></script>
+	<script src="js/visit-counter.js?v=40" defer></script>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <div>
+                <h1>你好，新蒸程</h1>
+                <p>整合包常见问题、更新日志、问答搜索与问题诊断工具</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-container">
+
+        <section class="top-grid">
+            <div class="card">
+                <h2>公告</h2>
+                <p>
+                    本页面用于整理《你好，新蒸程》整合包的常见问题、安装说明、运行问题、玩法说明和更新日志。
+                    <br>
+                    如果搜索不到答案，可以使用下方的专家系统进行问题诊断，也可以使用问答助手快速搜索。
+                </p>
+
+                <div class="divider"></div>
+
+                <p class="muted">
+                    数据来源：3群群聊记录分析
+                </p>
+				
+            </div>
+
+            <div class="card">
+                <h2>更新日志</h2>
+                <div id="changelogBox"></div>
+            </div>
+        </section>
+
+        <section class="card">
+            <div id="expertSystemBox"></div>
+        </section>
+
+        <section class="card">
+            <h2>问答搜索</h2>
+            <p class="section-desc">可以输入关键词搜索，也可以点击分类查看。</p>
+
+            <div class="search-box">
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="搜索问题，例如：VOXY、崩溃、PCL2、手机、服务器"
+                >
+                <button id="clearSearchBtn">清空</button>
+            </div>
+
+            <div id="categoryBox" class="category-box"></div>
+
+            <div id="qaList" class="qa-list"></div>
+        </section>
+
+    </main>
+</body>
+</html>
