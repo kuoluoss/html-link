@@ -20,6 +20,10 @@ window.ChatModule = (() => {
             return;
         }
 
+        if (document.querySelector("#openChatBtn")) {
+            return;
+        }
+
         const btn = document.createElement("button");
         btn.className = "secondary-btn";
         btn.id = "openChatBtn";
@@ -31,6 +35,11 @@ window.ChatModule = (() => {
     }
 
     function createModal() {
+        if (modal || document.querySelector(".chat-modal-mask")) {
+            modal = document.querySelector(".chat-modal-mask");
+            return;
+        }
+
         modal = document.createElement("div");
         modal.className = "chat-modal-mask";
         modal.innerHTML = `
@@ -142,16 +151,6 @@ window.ChatModule = (() => {
                 <p>
                     你可以直接告诉我你遇到的问题，比如安装失败、启动崩溃、VOXY、光影、联机、服务端、手机端等。
                 </p>
-                <div class="assistant-welcome-grid">
-                    <span>安装失败</span>
-                    <span>启动崩溃</span>
-                    <span>游戏卡顿</span>
-                    <span>VOXY 跑图</span>
-                    <span>光影异常</span>
-                    <span>服务端联机</span>
-                    <span>手机端</span>
-                    <span>玩法问题</span>
-                </div>
             </div>
         `;
     }
@@ -179,12 +178,14 @@ window.ChatModule = (() => {
 
         const attachmentNames = currentFiles.map(file => file.name).join("、");
 
-        messages.push({
+        const userMessage = {
             role: "user",
             content: attachmentNames
                 ? `${userDisplayText}\n\n附件：${attachmentNames}`
                 : userDisplayText
-        });
+        };
+
+        messages.push(userMessage);
 
         renderMessages({
             scrollTo: "bottom"
@@ -195,8 +196,9 @@ window.ChatModule = (() => {
         try {
             const relatedQA = getRelatedQA(text || attachmentNames);
 
-            // 调试用：打开 F12 控制台可以看到前端到底有没有命中问答库
-            console.log("传给 Worker 的 relatedQA：", relatedQA);
+            const historyForAI = messages
+                .slice(0, -1)
+                .slice(-8);
 
             const response = await fetch(`${AI_API_URL}/chat`, {
                 method: "POST",
@@ -205,7 +207,7 @@ window.ChatModule = (() => {
                 },
                 body: JSON.stringify({
                     message: userDisplayText,
-                    history: messages.slice(-8),
+                    history: historyForAI,
                     relatedQA,
                     attachments: currentFiles
                 })
@@ -217,8 +219,6 @@ window.ChatModule = (() => {
             }
 
             const data = await response.json();
-
-            console.log("Worker 返回：", data);
 
             const reply = data.reply || "AI 没有返回内容。";
 
@@ -691,7 +691,6 @@ window.ChatModule = (() => {
 
                 let score = 0;
 
-                // 1. 完整问题互相包含，最高优先级
                 if (inputText && qText.includes(inputText)) {
                     score += 220;
                 }
@@ -700,7 +699,6 @@ window.ChatModule = (() => {
                     score += 220;
                 }
 
-                // 2. 去掉“怎么办/为什么/怎么回事”等疑问词后再匹配
                 const simpleInput = removeQuestionWords(inputText);
                 const simpleQuestion = removeQuestionWords(qText);
 
@@ -712,10 +710,7 @@ window.ChatModule = (() => {
                     if (simpleInput.includes(simpleQuestion)) {
                         score += 180;
                     }
-                }
 
-                // 3. 中文问题相似度匹配
-                if (simpleInput && simpleQuestion) {
                     const similarity = getTextSimilarity(simpleInput, simpleQuestion);
 
                     if (similarity >= 0.78) {
@@ -727,7 +722,6 @@ window.ChatModule = (() => {
                     }
                 }
 
-                // 4. 关键词命中
                 keywords.forEach(keyword => {
                     const k = normalize(keyword);
 
@@ -746,10 +740,6 @@ window.ChatModule = (() => {
                     }
                 });
 
-                // 5. 中文连续片段匹配
-                // 用来解决：
-                // 用户问：光影设置界面空白怎么办
-                // 问答库：光影设置界面空白 / 可以盲点怎么办？
                 chineseSlices.forEach(slice => {
                     if (slice.length < 2) return;
 
@@ -764,7 +754,6 @@ window.ChatModule = (() => {
                     }
                 });
 
-                // 6. 普通 token 命中
                 tokens.forEach(token => {
                     const t = normalize(token);
 
@@ -787,7 +776,6 @@ window.ChatModule = (() => {
                     }
                 });
 
-                // 7. 常见强相关词额外加分
                 const importantWords = [
                     "光影",
                     "空白",
@@ -845,19 +833,33 @@ window.ChatModule = (() => {
     }
 
     function openModal() {
+        if (!modal) return;
+
         modal.classList.add("show");
         document.body.classList.add("modal-open");
 
         const input = modal.querySelector("#chatSearchInput");
 
-        if (!isSending) {
+        if (!isSending && input) {
             setTimeout(() => input.focus(), 50);
         }
     }
 
     function closeModal() {
+        if (!modal) return;
+
         modal.classList.remove("show");
-        document.body.classList.remove("modal-open");
+        unlockBodyIfNoModal();
+    }
+
+    function unlockBodyIfNoModal() {
+        const hasOpenModal = document.querySelector(
+            ".expert-modal-mask.show, .changelog-modal-mask.show, .chat-modal-mask.show"
+        );
+
+        if (!hasOpenModal) {
+            document.body.classList.remove("modal-open");
+        }
     }
 
     function normalize(value) {
@@ -954,7 +956,6 @@ window.ChatModule = (() => {
             return [];
         }
 
-        // 取 2~8 字连续片段，用于中文模糊匹配
         for (let len = 2; len <= 8; len++) {
             for (let i = 0; i <= value.length - len; i++) {
                 const slice = value.slice(i, i + len);
@@ -1022,8 +1023,65 @@ window.ChatModule = (() => {
             .replace(/'/g, "&#039;");
     }
 
+    function escapeAttribute(value) {
+        return String(value || "")
+            .replace(/&/g, "&amp;")
+            .replace(/"/g, "&quot;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+    }
+
+    function insertWordBreaks(value) {
+        return escapeHtml(String(value || ""))
+            .replace(/\//g, "/<wbr>")
+            .replace(/\./g, ".<wbr>")
+            .replace(/\?/g, "?<wbr>")
+            .replace(/&amp;/g, "&amp;<wbr>")
+            .replace(/=/g, "=<wbr>")
+            .replace(/-/g, "-<wbr>")
+            .replace(/_/g, "_<wbr>")
+            .replace(/%/g, "%<wbr>");
+    }
+
     function formatAnswer(value) {
-        return escapeHtml(value).replace(/\r?\n/g, "<br>");
+        const text = String(value || "");
+
+        const markdownLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+        const urlRegex = /(https?:\/\/[^\s<>"'，。！？、；;）)】\]]+)/g;
+
+        const placeholders = [];
+        let html = text.replace(markdownLinkRegex, (match, label, url) => {
+            const index = placeholders.length;
+            placeholders.push(createLinkHtml(url, label));
+            return `__AI_LINK_PLACEHOLDER_${index}__`;
+        });
+
+        html = escapeHtml(html);
+
+        html = html.replace(urlRegex, url => {
+            return createLinkHtml(url, url);
+        });
+
+        placeholders.forEach((linkHtml, index) => {
+            html = html.replace(`__AI_LINK_PLACEHOLDER_${index}__`, linkHtml);
+        });
+
+        html = html
+            .replace(/\r\n/g, "\n")
+            .replace(/\r/g, "\n")
+            .replace(/\n/g, "<br>");
+
+        return html;
+    }
+
+    function createLinkHtml(url, label) {
+        const safeUrl = String(url || "").trim();
+
+        if (!/^https?:\/\//i.test(safeUrl)) {
+            return escapeHtml(label || url);
+        }
+
+        return `<a href="${escapeAttribute(safeUrl)}" target="_blank" rel="noopener noreferrer">${insertWordBreaks(label || safeUrl)}</a>`;
     }
 
     return {

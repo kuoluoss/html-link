@@ -1,4 +1,3 @@
-// js/qa-module.js
 (function () {
     const QAModule = {
         config: {
@@ -15,10 +14,7 @@
         searchText: "",
         expandedItem: null,
 
-        // 默认答案预览长度：越小显示越短
         answerPreviewLength: 90,
-
-        // 默认答案预览行数：大概显示 3 排文字
         answerPreviewLineCount: 3,
 
         els: {
@@ -42,292 +38,12 @@
                 return;
             }
 
-            this.injectQAStyle();
             this.createCountBox();
 
             this.data = this.getQAData();
             this.buildCategories();
             this.bindEvents();
             this.applyFilter();
-        },
-
-        injectQAStyle() {
-            if (document.querySelector("#qaModuleExtraStyle")) {
-                return;
-            }
-
-            const style = document.createElement("style");
-            style.id = "qaModuleExtraStyle";
-
-            style.textContent = `
-                .qa-count-box {
-                    display: flex;
-                    flex-wrap: wrap;
-                    align-items: center;
-                    gap: 10px;
-                    margin: 14px 0 12px;
-                    color: #334155;
-                    font-size: 14px;
-                    line-height: 1.6;
-                }
-
-                .qa-count-box strong {
-                    color: #047857;
-                    font-weight: 800;
-                }
-
-                .qa-count-pill {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 4px;
-                    color: #0f172a;
-                    font-size: 14px;
-                    font-weight: 700;
-                    max-width: 100%;
-                    overflow-wrap: anywhere;
-                    word-break: break-word;
-                }
-
-                .qa-count-pill strong {
-                    color: #047857;
-                }
-
-                .qa-count-keyword {
-                    color: #2563eb;
-                }
-
-                .qa-count-category {
-                    color: #ea580c;
-                }
-
-                html,
-                body {
-                    max-width: 100%;
-                    overflow-x: hidden;
-                }
-
-                *,
-                *::before,
-                *::after {
-                    box-sizing: border-box;
-                }
-
-                .page-container,
-                .card,
-                .qa-list,
-                .qa-item,
-                .qa-category,
-                .qa-question,
-                .qa-answer,
-                .category-box,
-                .search-box {
-                    min-width: 0;
-                    max-width: 100%;
-                }
-
-                .qa-item {
-                    overflow: hidden;
-                }
-
-                .qa-question,
-                .qa-answer {
-                    overflow: hidden;
-                    overflow-wrap: anywhere;
-                    word-break: break-word;
-                    max-width: 100%;
-                }
-
-                .qa-answer *,
-                .qa-question *,
-                .qa-item *,
-                .card * {
-                    max-width: 100%;
-                }
-
-                .qa-answer-content {
-                    max-width: 100%;
-                    overflow: hidden;
-                }
-
-                .qa-answer-preview {
-                    position: relative;
-                }
-
-                .qa-answer-preview::after {
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    height: 26px;
-                    pointer-events: none;
-                    background: linear-gradient(to bottom, rgba(248, 250, 252, 0), #f8fafc);
-                }
-
-                .qa-answer-toggle-row {
-                    display: flex;
-                    justify-content: flex-start;
-                    margin-top: 10px;
-                }
-
-                .qa-answer-toggle-btn {
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    max-width: 100%;
-                    padding: 7px 13px;
-                    border: 1px solid #b9dfca;
-                    border-radius: 999px;
-                    background: #ecfdf5;
-                    color: #047857;
-                    font-size: 13px;
-                    font-weight: 800;
-                    line-height: 1.4;
-                    cursor: pointer;
-                    transition: 0.2s;
-                }
-
-                .qa-answer-toggle-btn:hover {
-                    border-color: #168957;
-                    background: #d8f3e4;
-                    color: #065f46;
-                }
-
-                .qa-answer a {
-                    display: inline-block;
-                    max-width: 100%;
-                    color: #0066cc;
-                    text-decoration: underline;
-                    overflow-wrap: anywhere;
-                    word-break: break-all;
-                    word-wrap: break-word;
-                    white-space: normal;
-                }
-
-                .qa-answer p,
-                .qa-answer div,
-                .qa-answer span,
-                .qa-answer li,
-                .qa-answer code,
-                .qa-answer pre {
-                    overflow-wrap: anywhere;
-                    word-break: break-word;
-                }
-
-                img,
-                video,
-                iframe,
-                canvas,
-                svg {
-                    max-width: 100%;
-                    height: auto;
-                }
-
-                pre {
-                    max-width: 100%;
-                    overflow-x: auto;
-                    white-space: pre-wrap;
-                    word-break: break-word;
-                }
-
-                code {
-                    white-space: pre-wrap;
-                    word-break: break-word;
-                }
-
-                .category-box {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 10px;
-                }
-
-                .category-btn {
-                    display: inline-flex !important;
-                    align-items: center;
-                    justify-content: center;
-                    visibility: visible !important;
-                    opacity: 1 !important;
-                    white-space: nowrap;
-                }
-
-                .category-btn.active {
-                    display: inline-flex !important;
-                    visibility: visible !important;
-                    opacity: 1 !important;
-                    background: var(--green, #168957) !important;
-                    color: #ffffff !important;
-                    border-color: var(--green, #168957) !important;
-                }
-
-                @media (max-width: 768px) {
-                    .qa-count-box {
-                        gap: 8px;
-                        font-size: 13px;
-                    }
-
-                    .qa-count-pill {
-                        font-size: 13px;
-                    }
-
-                    .page-container {
-                        width: 100%;
-                        padding-left: 12px;
-                        padding-right: 12px;
-                    }
-
-                    .card {
-                        width: 100%;
-                        padding-left: 16px;
-                        padding-right: 16px;
-                    }
-
-                    .qa-item {
-                        width: 100%;
-                        padding: 14px;
-                    }
-
-                    .qa-question {
-                        width: 100%;
-                        padding: 11px 12px;
-                        font-size: 15px;
-                        line-height: 1.65;
-                    }
-
-                    .qa-answer {
-                        width: 100%;
-                        padding: 12px 13px;
-                        font-size: 15px;
-                        line-height: 1.8;
-                    }
-
-                    .qa-answer-toggle-btn {
-                        padding: 7px 12px;
-                        font-size: 13px;
-                    }
-
-                    .search-box {
-                        width: 100%;
-                    }
-
-                    .search-box input {
-                        min-width: 0;
-                        width: 100%;
-                    }
-
-                    .category-box {
-                        width: 100%;
-                        display: flex;
-                        flex-wrap: wrap;
-                    }
-
-                    .category-btn {
-                        max-width: 100%;
-                        white-space: normal;
-                    }
-                }
-            `;
-
-            document.head.appendChild(style);
         },
 
         createCountBox() {
@@ -395,33 +111,145 @@
         },
 
         applyFilter() {
-            const keyword = this.searchText.toLowerCase();
+            const keywordRaw = this.searchText.trim();
+            const keyword = keywordRaw.toLowerCase();
+            const normalizedKeyword = this.normalizeSearchText(keywordRaw);
+            const keywordTokens = this.splitSearchTokens(keywordRaw);
 
-            this.filteredData = this.data.filter(item => {
-                if (!item) return false;
+            this.filteredData = this.data
+                .map(item => {
+                    if (!item) {
+                        return {
+                            item,
+                            score: 0,
+                            matched: false
+                        };
+                    }
 
-                const category = String(item.category || "");
-                const question = String(item.question || "");
-                const answer = String(item.rawAnswer || item.answer || item.answerHtml || "");
-                const keywords = Array.isArray(item.keywords) ? item.keywords.join(" ") : "";
+                    const category = String(item.category || "");
+                    const question = String(item.question || "");
+                    const answer = String(item.rawAnswer || item.answer || item.answerHtml || "");
+                    const keywords = Array.isArray(item.keywords) ? item.keywords.join(" ") : "";
 
-                const matchCategory =
-                    this.activeCategory === "全部" ||
-                    category === this.activeCategory;
+                    const matchCategory =
+                        this.activeCategory === "全部" ||
+                        category === this.activeCategory;
 
-                if (!matchCategory) return false;
+                    if (!matchCategory) {
+                        return {
+                            item,
+                            score: 0,
+                            matched: false
+                        };
+                    }
 
-                if (!keyword) return true;
+                    if (!keywordRaw) {
+                        return {
+                            item,
+                            score: 1,
+                            matched: true
+                        };
+                    }
 
-                const searchBody = [
-                    category,
-                    question,
-                    answer,
-                    keywords
-                ].join(" ").toLowerCase();
+                    const searchBody = [
+                        category,
+                        question,
+                        answer,
+                        keywords
+                    ].join(" ").toLowerCase();
 
-                return searchBody.includes(keyword);
-            });
+                    const normalizedBody = this.normalizeSearchText(searchBody);
+                    const normalizedQuestion = this.normalizeSearchText(question);
+                    const normalizedKeywords = this.normalizeSearchText(keywords);
+                    const normalizedCategory = this.normalizeSearchText(category);
+                    const normalizedAnswer = this.normalizeSearchText(answer);
+
+                    let score = 0;
+
+                    if (searchBody.includes(keyword)) {
+                        score += 80;
+                    }
+
+                    if (normalizedKeyword && normalizedBody.includes(normalizedKeyword)) {
+                        score += 120;
+                    }
+
+                    if (normalizedKeyword && normalizedQuestion.includes(normalizedKeyword)) {
+                        score += 180;
+                    }
+
+                    if (normalizedKeyword && normalizedKeywords.includes(normalizedKeyword)) {
+                        score += 140;
+                    }
+
+                    const simpleKeyword = this.removeQuestionWords(normalizedKeyword);
+                    const simpleQuestion = this.removeQuestionWords(normalizedQuestion);
+
+                    if (simpleKeyword && simpleQuestion) {
+                        if (simpleQuestion.includes(simpleKeyword)) {
+                            score += 160;
+                        }
+
+                        if (simpleKeyword.includes(simpleQuestion)) {
+                            score += 160;
+                        }
+
+                        const similarity = this.getTextSimilarity(simpleKeyword, simpleQuestion);
+
+                        if (similarity >= 0.78) {
+                            score += 130;
+                        } else if (similarity >= 0.6) {
+                            score += 90;
+                        } else if (similarity >= 0.42) {
+                            score += 45;
+                        }
+                    }
+
+                    keywordTokens.forEach(token => {
+                        const t = this.normalizeSearchText(token);
+
+                        if (t.length < 2) return;
+
+                        if (normalizedQuestion.includes(t)) {
+                            score += Math.min(t.length * 10, 70);
+                        }
+
+                        if (normalizedKeywords.includes(t)) {
+                            score += Math.min(t.length * 9, 60);
+                        }
+
+                        if (normalizedCategory.includes(t)) {
+                            score += 16;
+                        }
+
+                        if (normalizedAnswer.includes(t)) {
+                            score += Math.min(t.length * 3, 25);
+                        }
+                    });
+
+                    const slices = this.getChineseSlices(normalizedKeyword);
+
+                    slices.forEach(slice => {
+                        if (slice.length < 2) return;
+
+                        if (normalizedQuestion.includes(slice)) {
+                            score += Math.min(slice.length * 8, 55);
+                        } else if (normalizedKeywords.includes(slice)) {
+                            score += Math.min(slice.length * 7, 45);
+                        } else if (normalizedAnswer.includes(slice)) {
+                            score += Math.min(slice.length * 2, 16);
+                        }
+                    });
+
+                    return {
+                        item,
+                        score,
+                        matched: score > 0
+                    };
+                })
+                .filter(entry => entry.matched)
+                .sort((a, b) => b.score - a.score)
+                .map(entry => entry.item);
 
             if (this.expandedItem && !this.filteredData.includes(this.expandedItem)) {
                 this.expandedItem = null;
@@ -690,6 +518,154 @@
             });
 
             return box.innerHTML;
+        },
+
+        normalizeSearchText(value) {
+            return String(value || "")
+                .toLowerCase()
+                .replace(/\s+/g, "")
+                .replace(/[，。！？、,.!?;；:：()（）[\]【】"'“”‘’《》<>\/\\|_\-—]/g, "");
+        },
+
+        removeQuestionWords(value) {
+            return String(value || "")
+                .replace(/为什么/g, "")
+                .replace(/怎么回事/g, "")
+                .replace(/咋回事/g, "")
+                .replace(/怎么办/g, "")
+                .replace(/咋办/g, "")
+                .replace(/怎么/g, "")
+                .replace(/如何/g, "")
+                .replace(/能不能/g, "")
+                .replace(/可以吗/g, "")
+                .replace(/是什么/g, "")
+                .replace(/在哪/g, "")
+                .replace(/哪里/g, "")
+                .replace(/有没有/g, "")
+                .replace(/为啥/g, "")
+                .replace(/咋/g, "")
+                .replace(/吗/g, "")
+                .replace(/呢/g, "");
+        },
+
+        splitSearchTokens(value) {
+            const raw = String(value || "");
+
+            const basicTokens = raw
+                .replace(/[，。！？、,.!?;；:：()（）[\]【】"'“”‘’《》<>\/\\|_\-—]/g, " ")
+                .split(/\s+/)
+                .map(item => item.trim())
+                .filter(Boolean);
+
+            const extraTokens = [];
+
+            const commonWords = [
+                "光影设置",
+                "光影界面",
+                "光影设置界面",
+                "设置界面空白",
+                "界面空白",
+                "菜单空白",
+                "可以盲点",
+                "盲点",
+                "空白",
+                "光影",
+                "Iris",
+                "YSM",
+                "VOXY",
+                "PCL2",
+                "HMCL",
+                "安装失败",
+                "整合包",
+                "服务端",
+                "服务器",
+                "崩溃",
+                "闪退",
+                "卡顿",
+                "内存",
+                "手机",
+                "下载",
+                "报错",
+                "缺少模组",
+                "TACZ",
+                "Java",
+                "显卡",
+                "驱动",
+                "联机",
+                "启动失败",
+                "打不开",
+                "进不去"
+            ];
+
+            commonWords.forEach(word => {
+                if (raw.toLowerCase().includes(word.toLowerCase())) {
+                    extraTokens.push(word);
+                }
+            });
+
+            return Array.from(new Set(basicTokens.concat(extraTokens)));
+        },
+
+        getChineseSlices(text) {
+            const value = String(text || "");
+            const result = new Set();
+
+            if (!value) {
+                return [];
+            }
+
+            for (let len = 2; len <= 8; len++) {
+                for (let i = 0; i <= value.length - len; i++) {
+                    const slice = value.slice(i, i + len);
+
+                    if (slice && !this.isMostlyQuestionWords(slice)) {
+                        result.add(slice);
+                    }
+                }
+            }
+
+            return Array.from(result);
+        },
+
+        isMostlyQuestionWords(value) {
+            const text = String(value || "");
+
+            const useless = [
+                "怎么",
+                "怎么办",
+                "为什么",
+                "如何",
+                "可以吗",
+                "能不能",
+                "是什么",
+                "回事",
+                "咋办",
+                "咋回事"
+            ];
+
+            return useless.some(word => text === word);
+        },
+
+        getTextSimilarity(a, b) {
+            const textA = String(a || "");
+            const textB = String(b || "");
+
+            if (!textA || !textB) {
+                return 0;
+            }
+
+            const shortText = textA.length <= textB.length ? textA : textB;
+            const longText = textA.length > textB.length ? textA : textB;
+
+            let hit = 0;
+
+            for (const char of shortText) {
+                if (longText.includes(char)) {
+                    hit++;
+                }
+            }
+
+            return hit / Math.max(shortText.length, 1);
         },
 
         escapeHtml(text) {

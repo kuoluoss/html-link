@@ -139,6 +139,10 @@ code {
     box-shadow: var(--shadow);
 }
 
+.card * {
+    max-width: 100%;
+}
+
 .top-grid .card {
     margin-bottom: 0;
 }
@@ -181,6 +185,8 @@ code {
 .search-box {
     display: flex;
     gap: 12px;
+    min-width: 0;
+    max-width: 100%;
     margin-bottom: 10px;
 }
 
@@ -228,6 +234,11 @@ code {
     line-height: 1.6;
 }
 
+.qa-count-box strong {
+    color: #047857;
+    font-weight: 800;
+}
+
 .qa-count-pill {
     display: inline-flex;
     align-items: center;
@@ -236,6 +247,8 @@ code {
     color: #0f172a;
     font-size: 14px;
     font-weight: 700;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .qa-count-pill strong {
@@ -256,6 +269,8 @@ code {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    min-width: 0;
+    max-width: 100%;
     margin: 14px 0 20px;
 }
 
@@ -273,6 +288,7 @@ code {
     cursor: pointer;
     visibility: visible !important;
     opacity: 1 !important;
+    white-space: nowrap;
     transition: 0.2s;
 }
 
@@ -281,6 +297,12 @@ code {
     border-color: var(--green) !important;
     background: var(--green) !important;
     color: #ffffff !important;
+}
+
+.category-btn.active {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* 问答列表 */
@@ -301,6 +323,10 @@ code {
     border-radius: 12px;
     background: #ffffff;
     overflow: hidden;
+}
+
+.qa-item * {
+    max-width: 100%;
 }
 
 .qa-category {
@@ -326,6 +352,14 @@ code {
     font-weight: 700;
     line-height: 1.7;
     overflow: hidden;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.qa-question * {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .qa-answer {
@@ -338,10 +372,86 @@ code {
     font-size: 15px;
     line-height: 1.8;
     overflow: hidden;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.qa-answer * {
+    max-width: 100%;
+}
+
+.qa-answer p,
+.qa-answer div,
+.qa-answer span,
+.qa-answer li,
+.qa-answer code,
+.qa-answer pre {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.qa-answer a {
+    display: inline-block;
+    max-width: 100%;
+    color: #0066cc;
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .qa-answer a:hover {
     color: #004999;
+}
+
+.qa-answer-content {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.qa-answer-preview {
+    position: relative;
+}
+
+.qa-answer-preview::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 26px;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(248, 250, 252, 0), #f8fafc);
+}
+
+.qa-answer-toggle-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.qa-answer-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    padding: 7px 13px;
+    border: 1px solid #b9dfca;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: #047857;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.qa-answer-toggle-btn:hover {
+    border-color: #168957;
+    background: #d8f3e4;
+    color: #065f46;
 }
 
 /* 专家系统入口 */
@@ -1038,6 +1148,7 @@ code {
     }
 
     .page-container {
+        width: 100%;
         padding: 14px;
     }
 
@@ -1048,6 +1159,7 @@ code {
     }
 
     .card {
+        width: 100%;
         margin-bottom: 16px;
         padding: 18px;
         border-radius: 16px;
@@ -1058,6 +1170,7 @@ code {
     }
 
     .search-box {
+        width: 100%;
         flex-direction: column;
         gap: 10px;
     }
@@ -1067,9 +1180,19 @@ code {
         width: 100%;
     }
 
+    .search-box input {
+        min-width: 0;
+    }
+
     .search-box button {
         height: auto;
         padding: 12px 18px;
+    }
+
+    .category-box {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
     }
 
     .category-btn,
@@ -1089,17 +1212,27 @@ code {
     }
 
     .qa-item {
+        width: 100%;
         padding: 14px;
     }
 
     .qa-question {
+        width: 100%;
         padding: 11px 12px;
         font-size: 15px;
+        line-height: 1.65;
     }
 
     .qa-answer {
+        width: 100%;
         padding: 12px 13px;
         font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .qa-answer-toggle-btn {
+        padding: 7px 12px;
+        font-size: 13px;
     }
 
     .expert-entry {
