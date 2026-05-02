@@ -195,6 +195,9 @@ window.ChatModule = (() => {
         try {
             const relatedQA = getRelatedQA(text || attachmentNames);
 
+            // 调试用：打开 F12 控制台可以看到前端到底有没有命中问答库
+            console.log("传给 Worker 的 relatedQA：", relatedQA);
+
             const response = await fetch(`${AI_API_URL}/chat`, {
                 method: "POST",
                 headers: {
@@ -214,6 +217,8 @@ window.ChatModule = (() => {
             }
 
             const data = await response.json();
+
+            console.log("Worker 返回：", data);
 
             const reply = data.reply || "AI 没有返回内容。";
 
@@ -652,30 +657,173 @@ window.ChatModule = (() => {
     }
 
     function getRelatedQA(text) {
-        const data = window.QA_DATA || window.qaData || [];
-        const inputText = normalize(text);
-        const tokens = splitToTokens(text);
+        const data = window.QA_DATA || window.qaData || window.QAData || [];
+        const inputRaw = String(text || "").trim();
+        const inputText = normalize(inputRaw);
+        const tokens = splitToTokens(inputRaw);
+        const chineseSlices = getChineseSlices(inputText);
+
+        if (!inputText || !Array.isArray(data) || data.length === 0) {
+            return [];
+        }
 
         return data
             .map(item => {
-                const qaText = normalize([
-                    item.category,
-                    item.question,
-                    item.answer,
-                    Array.isArray(item.keywords) ? item.keywords.join(" ") : item.keywords
-                ].join(" "));
+                const category = String(item.category || "");
+                const question = String(item.question || "");
+                const answer = String(item.rawAnswer || item.answer || item.answerHtml || "");
+                const keywords = Array.isArray(item.keywords)
+                    ? item.keywords.map(k => String(k || ""))
+                    : [];
+
+                const qaTextRaw = [
+                    category,
+                    question,
+                    answer,
+                    keywords.join(" ")
+                ].join(" ");
+
+                const qaText = normalize(qaTextRaw);
+                const qText = normalize(question);
+                const aText = normalize(answer);
+                const kText = normalize(keywords.join(" "));
+                const cText = normalize(category);
 
                 let score = 0;
 
-                if (inputText && qaText.includes(inputText)) {
-                    score += 50;
+                // 1. 完整问题互相包含，最高优先级
+                if (inputText && qText.includes(inputText)) {
+                    score += 220;
                 }
 
+                if (inputText && inputText.includes(qText)) {
+                    score += 220;
+                }
+
+                // 2. 去掉“怎么办/为什么/怎么回事”等疑问词后再匹配
+                const simpleInput = removeQuestionWords(inputText);
+                const simpleQuestion = removeQuestionWords(qText);
+
+                if (simpleInput && simpleQuestion) {
+                    if (simpleQuestion.includes(simpleInput)) {
+                        score += 180;
+                    }
+
+                    if (simpleInput.includes(simpleQuestion)) {
+                        score += 180;
+                    }
+                }
+
+                // 3. 中文问题相似度匹配
+                if (simpleInput && simpleQuestion) {
+                    const similarity = getTextSimilarity(simpleInput, simpleQuestion);
+
+                    if (similarity >= 0.78) {
+                        score += 150;
+                    } else if (similarity >= 0.6) {
+                        score += 100;
+                    } else if (similarity >= 0.42) {
+                        score += 55;
+                    }
+                }
+
+                // 4. 关键词命中
+                keywords.forEach(keyword => {
+                    const k = normalize(keyword);
+
+                    if (!k) return;
+
+                    if (inputText.includes(k)) {
+                        score += k.length >= 4 ? 55 : 35;
+                    }
+
+                    if (k.includes(inputText)) {
+                        score += 50;
+                    }
+
+                    if (simpleInput && k.includes(simpleInput)) {
+                        score += 45;
+                    }
+                });
+
+                // 5. 中文连续片段匹配
+                // 用来解决：
+                // 用户问：光影设置界面空白怎么办
+                // 问答库：光影设置界面空白 / 可以盲点怎么办？
+                chineseSlices.forEach(slice => {
+                    if (slice.length < 2) return;
+
+                    if (qText.includes(slice)) {
+                        score += Math.min(slice.length * 9, 60);
+                    } else if (kText.includes(slice)) {
+                        score += Math.min(slice.length * 8, 50);
+                    } else if (aText.includes(slice)) {
+                        score += Math.min(slice.length * 3, 20);
+                    } else if (cText.includes(slice)) {
+                        score += 10;
+                    }
+                });
+
+                // 6. 普通 token 命中
                 tokens.forEach(token => {
                     const t = normalize(token);
 
-                    if (t.length >= 2 && qaText.includes(t)) {
-                        score += t.length;
+                    if (t.length < 2) return;
+
+                    if (qText.includes(t)) {
+                        score += Math.min(t.length * 9, 60);
+                    }
+
+                    if (kText.includes(t)) {
+                        score += Math.min(t.length * 8, 50);
+                    }
+
+                    if (aText.includes(t)) {
+                        score += Math.min(t.length * 3, 20);
+                    }
+
+                    if (cText.includes(t)) {
+                        score += 12;
+                    }
+                });
+
+                // 7. 常见强相关词额外加分
+                const importantWords = [
+                    "光影",
+                    "空白",
+                    "盲点",
+                    "界面",
+                    "菜单",
+                    "voxy",
+                    "pcl2",
+                    "hmcl",
+                    "服务器",
+                    "服务端",
+                    "崩溃",
+                    "闪退",
+                    "卡顿",
+                    "内存",
+                    "手机",
+                    "安装",
+                    "下载",
+                    "报错",
+                    "缺少模组",
+                    "tacz",
+                    "java",
+                    "iris",
+                    "ysm",
+                    "显卡",
+                    "驱动",
+                    "联机",
+                    "启动",
+                    "打不开"
+                ];
+
+                importantWords.forEach(word => {
+                    const w = normalize(word);
+
+                    if (inputText.includes(w) && qaText.includes(w)) {
+                        score += 28;
                     }
                 });
 
@@ -686,12 +834,13 @@ window.ChatModule = (() => {
             })
             .filter(entry => entry.score > 0)
             .sort((a, b) => b.score - a.score)
-            .slice(0, 6)
+            .slice(0, 8)
             .map(entry => ({
                 category: entry.item.category || "",
                 question: entry.item.question || "",
-                answer: entry.item.answer || "",
-                keywords: entry.item.keywords || []
+                answer: entry.item.rawAnswer || entry.item.answer || entry.item.answerHtml || "",
+                keywords: entry.item.keywords || [],
+                score: entry.score
             }));
     }
 
@@ -712,11 +861,152 @@ window.ChatModule = (() => {
     }
 
     function normalize(value) {
-        if (window.AppUtils && typeof window.AppUtils.normalizeText === "function") {
-            return window.AppUtils.normalizeText(value);
+        return String(value || "")
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .replace(/[，。！？、,.!?;；:：()（）[\]【】"'“”‘’《》<>\/\\|_\-—]/g, "");
+    }
+
+    function removeQuestionWords(value) {
+        return String(value || "")
+            .replace(/为什么/g, "")
+            .replace(/怎么回事/g, "")
+            .replace(/咋回事/g, "")
+            .replace(/怎么办/g, "")
+            .replace(/咋办/g, "")
+            .replace(/怎么/g, "")
+            .replace(/如何/g, "")
+            .replace(/能不能/g, "")
+            .replace(/可以吗/g, "")
+            .replace(/是什么/g, "")
+            .replace(/在哪/g, "")
+            .replace(/哪里/g, "")
+            .replace(/有没有/g, "")
+            .replace(/为啥/g, "")
+            .replace(/咋/g, "")
+            .replace(/吗/g, "")
+            .replace(/呢/g, "");
+    }
+
+    function splitToTokens(value) {
+        const raw = String(value || "");
+
+        const basicTokens = raw
+            .replace(/[，。！？、,.!?;；:：()（）[\]【】"'“”‘’《》<>\/\\|_\-—]/g, " ")
+            .split(/\s+/)
+            .map(item => item.trim())
+            .filter(Boolean);
+
+        const extraTokens = [];
+
+        const commonWords = [
+            "光影设置",
+            "光影界面",
+            "光影设置界面",
+            "设置界面空白",
+            "界面空白",
+            "菜单空白",
+            "可以盲点",
+            "盲点",
+            "空白",
+            "光影",
+            "Iris",
+            "YSM",
+            "VOXY",
+            "PCL2",
+            "HMCL",
+            "安装失败",
+            "整合包",
+            "服务端",
+            "服务器",
+            "崩溃",
+            "闪退",
+            "卡顿",
+            "内存",
+            "手机",
+            "下载",
+            "报错",
+            "缺少模组",
+            "TACZ",
+            "Java",
+            "显卡",
+            "驱动",
+            "联机",
+            "启动失败",
+            "打不开",
+            "进不去"
+        ];
+
+        commonWords.forEach(word => {
+            if (raw.toLowerCase().includes(word.toLowerCase())) {
+                extraTokens.push(word);
+            }
+        });
+
+        return Array.from(new Set(basicTokens.concat(extraTokens)));
+    }
+
+    function getChineseSlices(text) {
+        const value = String(text || "");
+        const result = new Set();
+
+        if (!value) {
+            return [];
         }
 
-        return String(value || "").toLowerCase().replace(/\s+/g, "");
+        // 取 2~8 字连续片段，用于中文模糊匹配
+        for (let len = 2; len <= 8; len++) {
+            for (let i = 0; i <= value.length - len; i++) {
+                const slice = value.slice(i, i + len);
+
+                if (slice && !isMostlyQuestionWords(slice)) {
+                    result.add(slice);
+                }
+            }
+        }
+
+        return Array.from(result);
+    }
+
+    function isMostlyQuestionWords(value) {
+        const text = String(value || "");
+
+        const useless = [
+            "怎么",
+            "怎么办",
+            "为什么",
+            "如何",
+            "可以吗",
+            "能不能",
+            "是什么",
+            "回事",
+            "咋办",
+            "咋回事"
+        ];
+
+        return useless.some(word => text === word);
+    }
+
+    function getTextSimilarity(a, b) {
+        const textA = String(a || "");
+        const textB = String(b || "");
+
+        if (!textA || !textB) {
+            return 0;
+        }
+
+        const shortText = textA.length <= textB.length ? textA : textB;
+        const longText = textA.length > textB.length ? textA : textB;
+
+        let hit = 0;
+
+        for (const char of shortText) {
+            if (longText.includes(char)) {
+                hit++;
+            }
+        }
+
+        return hit / Math.max(shortText.length, 1);
     }
 
     function escapeHtml(value) {
@@ -734,14 +1024,6 @@ window.ChatModule = (() => {
 
     function formatAnswer(value) {
         return escapeHtml(value).replace(/\r?\n/g, "<br>");
-    }
-
-    function splitToTokens(value) {
-        return String(value || "")
-            .replace(/[，。！？、,.!?;；:：()（）[\]【】"'“”‘’]/g, " ")
-            .split(/\s+/)
-            .map(item => item.trim())
-            .filter(Boolean);
     }
 
     return {
