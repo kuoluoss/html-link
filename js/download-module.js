@@ -49,8 +49,8 @@
             Client-V1.10.zip
             Server-V1.10.zip
         */
-        clientUrl: "https://github.com/kuoluoss/html-link/releases/download/%E6%9B%B4%E6%96%B0/Client-V1.10.zip",
-        serverUrl: "https://github.com/kuoluoss/html-link/releases/download/%E6%9B%B4%E6%96%B0/Server-V1.10.zip",
+        clientUrl: "https://github.com/kuoluoss/html-link/releases/download/%E6%96%B0%E7%89%88/Client-V1.2.0.zip",
+        serverUrl: "https://github.com/kuoluoss/html-link/releases/download/%E6%96%B0%E7%89%88/Server-V1.2.0.zip",
 
         backupUrl: "https://pan.quark.cn/s/2e4df37051bf"
     };
