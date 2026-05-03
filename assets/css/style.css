@@ -1,9 +1,17 @@
+/* =========================================================
+   基础重置与全局变量
+   ========================================================= */
+
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
+/* 
+    主题颜色变量。
+    如果以后想换整体配色，优先改这里。
+*/
 :root {
     --bg: #eef2f5;
     --card: #ffffff;
@@ -38,11 +46,13 @@ body {
     line-height: 1.7;
 }
 
+/* 弹窗打开时禁止页面滚动 */
 body.modal-open {
     overflow: hidden;
     touch-action: none;
 }
 
+/* 防止长链接、长文本撑破页面 */
 p,
 div,
 span,
@@ -87,7 +97,11 @@ code {
     word-break: break-word;
 }
 
-/* 页面头部 */
+
+/* =========================================================
+   页面头部区域
+   包括左侧标题和右侧作者卡片
+   ========================================================= */
 
 .site-header {
     padding: 34px 24px;
@@ -95,9 +109,23 @@ code {
     color: #ffffff;
 }
 
+/* 
+    头部内部容器。
+    display:flex 让标题在左边，作者卡片在右边。
+*/
 .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 36px;
     max-width: 1400px;
+    min-height: 165px;
     margin: 0 auto;
+}
+
+/* 左侧标题区域 */
+.header-copy {
+    min-width: 0;
 }
 
 .site-header h1 {
@@ -111,7 +139,98 @@ code {
     opacity: 0.9;
 }
 
-/* 页面主体 */
+/* 
+    右侧作者卡片。
+    如果你觉得太宽，可以改 flex 这一行。
+    如果你觉得太高，可以改 min-height 或 padding。
+*/
+.author-card {
+    position: relative;
+    flex: 0 0 min(420px, 34vw);
+    min-height: 128px;
+    padding: 24px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 24px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08)),
+        rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+    box-shadow:
+        0 22px 55px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+/* 作者卡片右上角装饰圆 */
+.author-card::before {
+    content: "";
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+/* 作者卡片底部短横线装饰 */
+.author-card::after {
+    content: "";
+    position: absolute;
+    left: 28px;
+    bottom: 0;
+    width: 92px;
+    height: 4px;
+    border-radius: 999px 999px 0 0;
+    background: rgba(255, 255, 255, 0.86);
+}
+
+/* 作者卡片的小标签 */
+.author-card-label {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-bottom: 12px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* 
+    作者名字。
+    想让名字更大就改 font-size。
+*/
+.author-card-name {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: 1px;
+    text-shadow: 0 3px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* 作者卡片底部说明 */
+.author-card-desc {
+    position: relative;
+    z-index: 1;
+    margin-top: 8px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   页面主体布局
+   ========================================================= */
 
 .page-container {
     width: 100%;
@@ -180,7 +299,10 @@ code {
     color: #64748b;
 }
 
-/* 搜索 */
+
+/* =========================================================
+   搜索框
+   ========================================================= */
 
 .search-box {
     display: flex;
@@ -221,7 +343,10 @@ code {
     background: #cbd5e1;
 }
 
-/* 问答统计 */
+
+/* =========================================================
+   问答统计
+   ========================================================= */
 
 .qa-count-box {
     display: flex;
@@ -263,7 +388,10 @@ code {
     color: #ea580c;
 }
 
-/* 分类 */
+
+/* =========================================================
+   分类按钮
+   ========================================================= */
 
 .category-box {
     display: flex;
@@ -305,7 +433,10 @@ code {
     opacity: 1 !important;
 }
 
-/* 问答列表 */
+
+/* =========================================================
+   问答列表
+   ========================================================= */
 
 .qa-list {
     display: flex;
@@ -454,7 +585,10 @@ code {
     color: #065f46;
 }
 
-/* 专家系统入口 */
+
+/* =========================================================
+   专家系统入口
+   ========================================================= */
 
 .expert-entry {
     display: flex;
@@ -514,7 +648,11 @@ code {
     background: #d8efe3;
 }
 
-/* 通用弹窗 */
+
+/* =========================================================
+   通用弹窗样式
+   专家系统、更新日志、AI助手都会用到
+   ========================================================= */
 
 .expert-modal-mask,
 .changelog-modal-mask,
@@ -608,7 +746,10 @@ code {
     background: #dbe4ef;
 }
 
-/* 专家系统弹窗 */
+
+/* =========================================================
+   专家系统弹窗
+   ========================================================= */
 
 .expert-modal-body {
     display: grid;
@@ -682,7 +823,10 @@ code {
     color: var(--green-dark);
 }
 
-/* 更新日志 */
+
+/* =========================================================
+   更新日志
+   ========================================================= */
 
 .changelog-list {
     display: flex;
@@ -831,7 +975,10 @@ code {
     margin-top: 4px;
 }
 
-/* AI 问题助手 */
+
+/* =========================================================
+   AI 问题助手
+   ========================================================= */
 
 .chat-modal {
     display: flex;
@@ -866,7 +1013,7 @@ code {
     font-size: 14px;
 }
 
-/* 关键：消息滚动框 */
+/* 消息滚动框 */
 .chat-result-box {
     flex: 1 1 auto;
     height: 0;
@@ -886,7 +1033,7 @@ code {
     background: #f8fafc;
 }
 
-/* 快捷问题 */
+/* 快捷问题按钮 */
 .quick-question-box {
     flex: 0 0 auto;
     display: flex;
@@ -982,7 +1129,7 @@ code {
     line-height: 1.75;
 }
 
-/* 用户消息：右边 */
+/* 用户消息：靠右 */
 .ai-message-user {
     align-self: flex-end;
     margin-left: auto;
@@ -998,7 +1145,7 @@ code {
     color: #ffffff;
 }
 
-/* AI消息：左边 */
+/* AI 消息：靠左 */
 .ai-message-assistant {
     align-self: flex-start;
     margin-left: 0;
@@ -1014,7 +1161,7 @@ code {
     color: #334155;
 }
 
-/* 附件 */
+/* 附件预览 */
 .attachment-preview {
     flex: 0 0 auto;
     display: flex;
@@ -1056,7 +1203,7 @@ code {
     color: #b91c1c;
 }
 
-/* 输入区域：固定底部 */
+/* 聊天输入区域 */
 .chat-input-row {
     flex: 0 0 auto;
     display: flex;
@@ -1118,7 +1265,10 @@ code {
     opacity: 0.55;
 }
 
-/* 访问统计 */
+
+/* =========================================================
+   访问统计
+   ========================================================= */
 
 .visit-counter-box {
     display: flex;
@@ -1136,15 +1286,45 @@ code {
     font-weight: 700;
 }
 
-/* 移动端 */
+
+/* =========================================================
+   移动端适配：平板和手机
+   ========================================================= */
 
 @media (max-width: 768px) {
     .site-header {
         padding: 26px 16px;
     }
 
+    /*
+        手机端头部改为上下布局：
+        标题在上，作者卡片在下。
+    */
+    .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+        min-height: auto;
+    }
+
     .site-header h1 {
         font-size: 28px;
+    }
+
+    .author-card {
+        flex: none;
+        width: 100%;
+        min-height: auto;
+        padding: 18px 20px;
+        border-radius: 18px;
+    }
+
+    .author-card-name {
+        font-size: 24px;
+    }
+
+    .author-card-desc {
+        font-size: 13px;
     }
 
     .page-container {
@@ -1462,7 +1642,10 @@ code {
     }
 }
 
-/* 小屏手机 */
+
+/* =========================================================
+   小屏手机适配
+   ========================================================= */
 
 @media (max-width: 420px) {
     .page-container {
@@ -1479,6 +1662,14 @@ code {
 
     .site-header h1 {
         font-size: 25px;
+    }
+
+    .author-card {
+        padding: 16px 18px;
+    }
+
+    .author-card-name {
+        font-size: 22px;
     }
 
     .category-btn {

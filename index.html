@@ -5,31 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>你好，新蒸程 - 问答与问题诊断</title>
 
-    <link rel="stylesheet" href="assets/css/style.css?v=2026050201">
+    <!-- 
+        网站作者信息。
+        这里的 content 可以改成你的名字。
+    -->
+    <meta name="author" content="你的名字">
 
-    <script src="data/changelog.js?v=2026050201" defer></script>
-    <script src="data/qa-data.js?v=2026050201" defer></script>
+    <!-- 
+        主样式文件。
+        如果你修改了 style.css 但浏览器没变化，可以改一下 v 后面的数字来强制刷新缓存。
+    -->
+    <link rel="stylesheet" href="assets/css/style.css?v=2026050203">
 
-    <script src="js/utils.js?v=2026050201" defer></script>
-    <script src="js/changelog-module.js?v=2026050201" defer></script>
-    <script src="js/qa-module.js?v=2026050201" defer></script>
-    <script src="js/expert-module.js?v=2026050201" defer></script>
-    <script src="js/chat-module.js?v=2026050201" defer></script>
-    <script src="js/main.js?v=2026050201" defer></script>
+    <!-- 数据文件 -->
+    <script src="data/changelog.js?v=2026050301" defer></script>
+    <script src="data/qa-data.js?v=2026050301" defer></script>
+
+    <!-- 功能脚本 -->
+    <script src="js/utils.js?v=2026050301" defer></script>
+    <script src="js/changelog-module.js?v=2026050301" defer></script>
+    <script src="js/qa-module.js?v=2026050301" defer></script>
+    <script src="js/expert-module.js?v=2026050301" defer></script>
+    <script src="js/chat-module.js?v=2026050301" defer></script>
+    <script src="js/main.js?v=2026050301" defer></script>
 </head>
 
 <body>
+    <!-- ================= 页面顶部区域 ================= -->
     <header class="site-header">
         <div class="header-inner">
-            <div>
+
+            <!-- 左侧：网站标题和说明 -->
+            <div class="header-copy">
                 <h1>你好，新蒸程</h1>
                 <p>整合包常见问题、更新日志、问答搜索与问题诊断工具</p>
             </div>
+
+            <!-- 
+                右侧：作者信息卡片
+                如果要改作者名字，主要改下面 author-card-name 里的文字。
+            -->
+            <div class="author-card" aria-label="网页作者信息">
+                <div class="author-card-label">网页作者</div>
+                <div class="author-card-name">软萌の小正太</div>
+                <div class="author-card-desc">整理 / 维护 / 页面制作</div>
+            </div>
+
         </div>
     </header>
 
+    <!-- ================= 页面主体内容 ================= -->
     <main class="page-container">
 
+        <!-- 顶部两栏：公告 + 更新日志 -->
         <section class="top-grid">
             <div class="card">
                 <h2>公告</h2>
@@ -44,19 +72,22 @@
                 <p class="muted">
                     数据来源：3群群聊记录分析
                 </p>
-				
             </div>
 
             <div class="card">
                 <h2>更新日志</h2>
+
+                <!-- 更新日志由 js/changelog-module.js 自动渲染到这里 -->
                 <div id="changelogBox"></div>
             </div>
         </section>
 
+        <!-- 问题诊断专家系统，由 JS 自动渲染按钮和弹窗 -->
         <section class="card">
             <div id="expertSystemBox"></div>
         </section>
 
+        <!-- 问答搜索区域 -->
         <section class="card">
             <h2>问答搜索</h2>
             <p class="section-desc">可以输入关键词搜索，也可以点击分类查看。</p>
@@ -70,8 +101,10 @@
                 <button id="clearSearchBtn">清空</button>
             </div>
 
+            <!-- 分类按钮由 js/qa-module.js 自动渲染到这里 -->
             <div id="categoryBox" class="category-box"></div>
 
+            <!-- 问答列表由 js/qa-module.js 自动渲染到这里 -->
             <div id="qaList" class="qa-list"></div>
         </section>
 
