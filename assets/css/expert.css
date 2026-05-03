@@ -1,0 +1,107 @@
+/* =========================================================
+   专家系统入口
+   ========================================================= */
+
+.expert-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.expert-entry h2 {
+    margin: 0 0 8px;
+    color: var(--green-dark);
+}
+
+.expert-entry p {
+    margin: 0;
+}
+
+.expert-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   专家系统弹窗
+   ========================================================= */
+
+.expert-modal-body {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+    max-height: calc(86vh - 110px);
+    padding: 24px 28px;
+    overflow: auto;
+}
+
+.expert-type-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.expert-type-btn {
+    padding: 12px 14px;
+    border: 1px solid #d6e5dc;
+    border-radius: 12px;
+    background: #f8fafc;
+    color: #0f5132;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.expert-type-btn:hover,
+.expert-type-btn.active {
+    border-color: var(--green);
+    background: var(--green);
+    color: #ffffff;
+}
+
+.expert-result-panel {
+    min-width: 0;
+    min-height: 300px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    background: #f8fafc;
+}
+
+.expert-result-panel h3 {
+    margin-top: 0;
+    color: var(--green-dark);
+}
+
+.expert-section {
+    margin-top: 18px;
+}
+
+.expert-section h4 {
+    margin: 0 0 8px;
+    color: #0f172a;
+}
+
+.expert-section ul,
+.expert-section ol {
+    margin: 0;
+    padding-left: 22px;
+    line-height: 1.8;
+}
+
+.expert-note {
+    margin-top: 20px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--green-light);
+    color: var(--green-dark);
+}

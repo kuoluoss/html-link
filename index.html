@@ -9,7 +9,7 @@
         网站作者信息。
         这里的 content 可以改成你的名字。
     -->
-    <meta name="author" content="你的名字">
+    <meta name="author" content="软萌の小正太">
 
     <!-- 
         主样式文件。
@@ -18,16 +18,23 @@
     <link rel="stylesheet" href="assets/css/style.css?v=2026050203">
 
     <!-- 数据文件 -->
-    <script src="data/changelog.js?v=2026050301" defer></script>
-    <script src="data/qa-data.js?v=2026050301" defer></script>
+    <script src="data/changelog.js?v=2026050310" defer></script>
+    <script src="data/qa-data.js?v=2026050310" defer></script>
 
     <!-- 功能脚本 -->
-    <script src="js/utils.js?v=2026050301" defer></script>
-    <script src="js/changelog-module.js?v=2026050301" defer></script>
-    <script src="js/qa-module.js?v=2026050301" defer></script>
-    <script src="js/expert-module.js?v=2026050301" defer></script>
-    <script src="js/chat-module.js?v=2026050301" defer></script>
-    <script src="js/main.js?v=2026050301" defer></script>
+    <script src="js/utils.js?v=2026050310" defer></script>
+    <script src="js/changelog-module.js?v=2026050310" defer></script>
+    <script src="js/qa-module.js?v=2026050310" defer></script>
+    <script src="js/expert-module.js?v=2026050310" defer></script>
+    <script src="js/chat-module.js?v=2026050310" defer></script>
+
+    <!-- 
+        最新版整合包下载模块。
+        这个文件是本次新增的，负责下载弹窗和下载按钮逻辑。
+    -->
+    <script src="js/download-module.js?v=2026050301" defer></script>
+
+    <script src="js/main.js?v=2026050310" defer></script>
 </head>
 
 <body>
@@ -69,9 +76,27 @@
 
                 <div class="divider"></div>
 
-                <p class="muted">
-                    数据来源：3群群聊记录分析
-                </p>
+                <!-- 
+                    公告卡片底部区域。
+                    左边是数据来源，右边是最新版整合包下载按钮。
+                    这里复用了 expert-entry 的布局样式，所以不需要额外改 CSS。
+                -->
+                <div class="expert-entry">
+                    <p class="muted">
+                        数据来源：3群群聊记录分析
+                    </p>
+
+                    <!-- 
+                        最新版整合包下载按钮。
+                        点击后会打开下面的 downloadModal 弹窗。
+                        具体逻辑在 js/download-module.js 里。
+                    -->
+                    <div class="expert-actions">
+                        <button id="downloadLatestBtn" class="primary-btn" type="button">
+                            点击下载最新版整合包
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div class="card">
@@ -98,7 +123,7 @@
                     type="text"
                     placeholder="搜索问题，例如：VOXY、崩溃、PCL2、手机、服务器"
                 >
-                <button id="clearSearchBtn">清空</button>
+                <button id="clearSearchBtn" type="button">清空</button>
             </div>
 
             <!-- 分类按钮由 js/qa-module.js 自动渲染到这里 -->
@@ -109,5 +134,69 @@
         </section>
 
     </main>
+
+    <!-- 
+        ================= 最新版整合包下载弹窗 =================
+
+        这个弹窗复用了你原本的弹窗样式：
+        - expert-modal-mask
+        - changelog-modal
+        - changelog-modal-header
+        - changelog-modal-body
+        - modal-close-btn
+        - primary-btn
+        - secondary-btn
+
+        所以这次不需要额外修改 style.css。
+    -->
+    <div id="downloadModalMask" class="expert-modal-mask" aria-hidden="true">
+        <div class="changelog-modal" role="dialog" aria-modal="true" aria-labelledby="downloadModalTitle">
+
+            <div class="changelog-modal-header">
+                <div>
+                    <h2 id="downloadModalTitle">下载最新版整合包</h2>
+                    <p>当前版本：V1.1.0 客户端 / 服务端</p>
+                </div>
+
+                <button id="downloadModalCloseBtn" class="modal-close-btn" type="button" aria-label="关闭下载弹窗">
+                    ×
+                </button>
+            </div>
+
+            <div class="changelog-modal-body">
+                <!-- 下载提示 -->
+                <div class="expert-note">
+                    <strong>下载提示：</strong>
+                    由于文件发布在 GitHub，可能会出现无法下载和下载缓慢的问题。
+                    如果出现类似问题，建议前往 QQ 群或者网盘下载：
+                    <br>
+                    <a href="https://pan.quark.cn/s/2e4df37051bf" target="_blank" rel="noopener noreferrer">
+                        https://pan.quark.cn/s/2e4df37051bf
+                    </a>
+                </div>
+
+                <div class="divider"></div>
+
+                <p class="section-desc">
+                    请选择你需要下载的版本：
+                </p>
+
+                <!-- 
+                    两个下载按钮。
+                    实际下载链接在 js/download-module.js 里统一维护。
+                -->
+                <div class="expert-actions" style="justify-content: flex-start;">
+                    <button id="downloadClientBtn" class="secondary-btn type="button">
+                        V1.1.0 客户端
+                    </button>
+
+                    <button id="downloadServerBtn" class="secondary-btn" type="button">
+                        V1.1.0 服务端
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </body>
 </html>

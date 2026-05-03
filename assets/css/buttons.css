@@ -1,0 +1,34 @@
+/* =========================================================
+   通用按钮
+   ========================================================= */
+
+.primary-btn,
+.secondary-btn {
+    max-width: 100%;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+
+.primary-btn {
+    border: none;
+    background: var(--green);
+    color: #ffffff;
+}
+
+.primary-btn:hover {
+    background: #0f6f45;
+}
+
+.secondary-btn {
+    border: 1px solid #b9dfca;
+    background: #eaf4ef;
+    color: var(--green-dark);
+}
+
+.secondary-btn:hover {
+    background: #d8efe3;
+}

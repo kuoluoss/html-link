@@ -1,0 +1,482 @@
+/* =========================================================
+   移动端适配：平板和手机
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .site-header {
+        padding: 26px 16px;
+    }
+
+    .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+        min-height: auto;
+    }
+
+    .site-header h1 {
+        font-size: 28px;
+    }
+
+    .author-card {
+        flex: none;
+        width: 100%;
+        min-height: auto;
+        padding: 18px 20px;
+        border-radius: 18px;
+    }
+
+    .author-card-name {
+        font-size: 24px;
+    }
+
+    .author-card-desc {
+        font-size: 13px;
+    }
+
+    .page-container {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .top-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+    }
+
+    .card {
+        width: 100%;
+        margin-bottom: 16px;
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .card h2 {
+        font-size: 20px;
+    }
+
+    .search-box {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-box input,
+    .search-box button {
+        width: 100%;
+    }
+
+    .search-box input {
+        min-width: 0;
+    }
+
+    .search-box button {
+        height: auto;
+        padding: 12px 18px;
+    }
+
+    .category-box {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .category-btn,
+    .quick-question-box button,
+    .primary-btn,
+    .secondary-btn {
+        white-space: normal;
+    }
+
+    .qa-count-box {
+        gap: 8px;
+        font-size: 13px;
+    }
+
+    .qa-count-pill {
+        font-size: 13px;
+    }
+
+    .qa-item {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .qa-question {
+        width: 100%;
+        padding: 11px 12px;
+        font-size: 15px;
+        line-height: 1.65;
+    }
+
+    .qa-answer {
+        width: 100%;
+        padding: 12px 13px;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .qa-answer-toggle-btn {
+        padding: 7px 12px;
+        font-size: 13px;
+    }
+
+    .expert-entry {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .expert-actions {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .expert-modal-mask,
+    .changelog-modal-mask,
+    .chat-modal-mask {
+        align-items: center;
+        padding: 10px;
+    }
+
+    .expert-modal,
+    .changelog-modal {
+        width: 100%;
+        max-width: 100%;
+        max-height: 92vh;
+        border-radius: 18px;
+    }
+
+    .expert-modal-header,
+    .changelog-modal-header,
+    .chat-modal-header {
+        padding: 18px;
+        gap: 12px;
+    }
+
+    .expert-modal-header h2,
+    .changelog-modal-header h2,
+    .chat-modal-header h2 {
+        font-size: 20px;
+    }
+
+    .expert-modal-header p,
+    .changelog-modal-header p,
+    .chat-modal-header p {
+        font-size: 14px;
+    }
+
+    .expert-modal-body {
+        grid-template-columns: 1fr;
+        max-height: calc(92vh - 96px);
+        padding: 18px;
+    }
+
+    .changelog-modal-body {
+        max-height: calc(92vh - 96px);
+        padding: 18px;
+    }
+
+    .changelog-footer {
+        position: static;
+        justify-content: flex-end;
+        margin: -4px 0 12px;
+    }
+
+    .changelog-history-modal {
+        width: 100%;
+    }
+
+    .changelog-title-row {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .changelog-title-row strong {
+        width: 100%;
+        flex: 0 0 100%;
+    }
+
+    .changelog-detail-btn {
+        padding: 7px 12px;
+    }
+
+    .changelog-expanded-item {
+        padding: 14px;
+    }
+
+    .changelog-expanded-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .changelog-expanded-head h3 {
+        font-size: 16px;
+    }
+
+    .changelog-expanded-content {
+        padding: 12px 13px;
+    }
+
+    .chat-modal {
+        width: 100%;
+        height: calc(100dvh - 20px);
+        max-height: calc(100dvh - 20px);
+        border-radius: 18px;
+    }
+
+    .chat-modal-header {
+        flex: 0 0 auto;
+        padding: 15px 18px;
+    }
+
+    .chat-modal-body {
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 12px 14px 14px;
+        overflow: hidden;
+    }
+
+    .assistant-tip {
+        margin-bottom: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        line-height: 1.55;
+    }
+
+    .chat-result-box {
+        flex: 1 1 auto;
+        height: 0;
+        min-height: 120px;
+        max-height: none;
+        gap: 10px;
+        margin-bottom: 8px;
+        padding: 10px;
+        border-radius: 14px;
+    }
+
+    .quick-question-box {
+        gap: 8px;
+        max-height: 72px;
+        margin-bottom: 8px;
+    }
+
+    .quick-question-box button {
+        padding: 7px 10px;
+        font-size: 13px;
+    }
+
+    .attachment-preview {
+        max-height: 64px;
+        margin: 4px 0 8px;
+    }
+
+    .attachment-item {
+        width: 100%;
+        justify-content: space-between;
+        border-radius: 12px;
+    }
+
+    .chat-input-row {
+        flex-direction: column;
+        gap: 8px;
+        padding-top: 8px;
+    }
+
+    .chat-input-row input,
+    .chat-input-row button,
+    #chatUploadBtn {
+        width: 100%;
+        height: 42px;
+    }
+
+    .chat-input-row input {
+        padding: 0 12px;
+        font-size: 14px;
+    }
+
+    .chat-input-row button,
+    #chatUploadBtn {
+        padding: 0 14px;
+    }
+
+    .ai-message {
+        width: auto;
+        min-width: 64px;
+        max-width: 86%;
+        padding: 12px 13px;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .ai-message-user {
+        align-self: flex-end;
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+    .ai-message-assistant {
+        align-self: flex-start;
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    .ai-message-content {
+        line-height: 1.7;
+    }
+
+    .assistant-welcome {
+        padding: 14px;
+    }
+
+    .assistant-welcome-grid {
+        gap: 8px;
+    }
+
+    .assistant-welcome-grid span {
+        padding: 6px 9px;
+        font-size: 12px;
+    }
+
+    .modal-close-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 22px;
+    }
+
+    .notice-download-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .notice-download-btn {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .download-modal {
+        width: 100%;
+        max-height: 92vh;
+        border-radius: 18px;
+    }
+
+    .download-modal-header {
+        padding: 18px 18px 14px;
+        gap: 12px;
+    }
+
+    .download-modal-header h2 {
+        font-size: 20px;
+    }
+
+    .download-modal-body {
+        max-height: calc(92vh - 90px);
+        padding: 14px 18px 20px;
+    }
+
+    .download-divider {
+        margin: 14px 0;
+    }
+
+    .download-choice-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .download-file-btn {
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   小屏手机适配
+   ========================================================= */
+
+@media (max-width: 420px) {
+    .page-container {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    .site-header {
+        padding: 22px 14px;
+    }
+
+    .site-header h1 {
+        font-size: 25px;
+    }
+
+    .author-card {
+        padding: 16px 18px;
+    }
+
+    .author-card-name {
+        font-size: 22px;
+    }
+
+    .category-btn {
+        padding: 7px 11px;
+        font-size: 13px;
+    }
+
+    .qa-question {
+        font-size: 15px;
+    }
+
+    .qa-answer {
+        font-size: 14px;
+    }
+
+    .chat-modal-mask {
+        padding: 6px;
+    }
+
+    .chat-modal {
+        height: calc(100dvh - 12px);
+        max-height: calc(100dvh - 12px);
+        border-radius: 16px;
+    }
+
+    .chat-modal-header {
+        padding: 13px 14px;
+    }
+
+    .chat-modal-body {
+        padding: 10px 12px 12px;
+    }
+
+    .chat-result-box {
+        min-height: 100px;
+        padding: 9px;
+    }
+
+    .quick-question-box {
+        max-height: 64px;
+    }
+
+    .ai-message {
+        max-width: 88%;
+        font-size: 14px;
+    }
+
+    .download-modal-header {
+        padding: 16px 16px 12px;
+    }
+
+    .download-modal-body {
+        padding: 12px 16px 18px;
+    }
+
+    .download-tip-box {
+        padding: 12px 13px;
+        font-size: 14px;
+    }
+}
