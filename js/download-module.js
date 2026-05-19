@@ -52,7 +52,7 @@
         clientUrl: "https://github.com/kuoluoss/html-link/releases/download/1.3.0/Client-V1.3.0.zip",
         serverUrl: "https://github.com/kuoluoss/html-link/releases/download/1.3.0/Server-V1.3.0.zip",
 
-        backupUrl: "https://pan.quark.cn/s/2e4df37051bf"
+        backupUrl: "https://pan.baidu.com/s/1lQ9DPgMtO2hk-0S4h6Oe1g?pwd=ifsa"
     };
 
     /*
