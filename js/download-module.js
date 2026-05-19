@@ -36,7 +36,7 @@
         =====================================================
     */
     const DOWNLOAD_CONFIG = {
-        versionText: "V1.1.0",
+        versionText: "V1.3.0",
 
         /*
             GitHub Release 文件直链格式一般是：
@@ -49,8 +49,8 @@
             Client-V1.10.zip
             Server-V1.10.zip
         */
-        clientUrl: "https://github.com/kuoluoss/html-link/releases/download/%E6%96%B0%E7%89%88/Client-V1.2.0.zip",
-        serverUrl: "https://github.com/kuoluoss/html-link/releases/download/%E6%96%B0%E7%89%88/Server-V1.2.0.zip",
+        clientUrl: "https://github.com/kuoluoss/html-link/releases/download/%E6%96%B0%E7%89%88/Client-V1.3.0.zip",
+        serverUrl: "https://github.com/kuoluoss/html-link/releases/download/%E6%96%B0%E7%89%88/Server-V1.3.0.zip",
 
         backupUrl: "https://pan.quark.cn/s/2e4df37051bf"
     };
