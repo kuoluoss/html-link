@@ -49,10 +49,8 @@
             Client-V1.10.zip
             Server-V1.10.zip
         */
-        clientUrl: "https://github.com/kuoluoss/html-link/releases/download/1.3.0/Client-V1.3.0.zip",
-        serverUrl: "https://github.com/kuoluoss/html-link/releases/download/1.3.0/Server-V1.3.0.zip",
-
-        backupUrl: "https://pan.baidu.com/s/1lQ9DPgMtO2hk-0S4h6Oe1g?pwd=ifsa"
+        kuakeUrl: "https://pan.quark.cn/s/a8ea64bc462e",
+        baiduUrl: "https://pan.baidu.com/s/1lQ9DPgMtO2hk-0S4h6Oe1g?pwd=ifsa"
     };
 
     /*
@@ -143,14 +141,14 @@
             下载客户端
         */
         clientBtn.addEventListener("click", function () {
-            openDownloadUrl(DOWNLOAD_CONFIG.clientUrl);
+            openDownloadUrl(DOWNLOAD_CONFIG.kuakeUrl);
         });
 
         /*
             下载服务端
         */
         serverBtn.addEventListener("click", function () {
-            openDownloadUrl(DOWNLOAD_CONFIG.serverUrl);
+            openDownloadUrl(DOWNLOAD_CONFIG.baiduUrl);
         });
     });
 })();
