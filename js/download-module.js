@@ -49,7 +49,7 @@
             Client-V1.10.zip
             Server-V1.10.zip
         */
-        kuakeUrl: "https://pan.quark.cn/s/a8ea64bc462e",
+        kuakeUrl: "https://pan.quark.cn/s/d9f87296aeaf?pwd=WZjz",
         baiduUrl: "https://pan.baidu.com/s/1lQ9DPgMtO2hk-0S4h6Oe1g?pwd=ifsa"
     };
 
