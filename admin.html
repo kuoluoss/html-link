@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你好，新蒸程 - 后台管理</title>
+    <link rel="stylesheet" href="assets/css/style.css?v=2026060704">
+    <link rel="stylesheet" href="assets/css/admin.css?v=2026061409">
+    <script src="data/changelog.js?v=2026060704" defer></script>
+    <script src="data/qa-data.js?v=2026060704" defer></script>
+    <script src="js/config.js?v=2026061301" defer></script>
+    <script src="js/utils.js?v=2026060704" defer></script>
+    <script src="js/admin-module.js?v=2026061412" defer></script></head>
+<body class="admin-logged-out">
+    <main class="page-container admin-page">
+        <section id="loginCard" class="card admin-login-card">
+            <h1>后台管理</h1>
+            <p class="section-desc">请输入后台密码。</p>
+            <div class="admin-form-row">
+                <label for="adminPassword">后台密码</label>
+                <input id="adminPassword" type="password" autocomplete="current-password" placeholder="输入后台密码">
+            </div>
+            <div class="admin-actions">
+                <button id="loginBtn" class="primary-btn" type="button">登录</button>
+                <a class="secondary-btn admin-link-btn" href="index.html">返回首页</a>
+            </div>
+            <div id="loginStatus" class="admin-status"></div>
+        </section>
+
+        <section id="adminPanel" class="admin-panel" hidden>
+            <div class="admin-toolbar card">
+                <div>
+                    <h1>你好，新蒸程后台</h1>
+                    <p id="saveStatus" class="section-desc">修改完成后点击保存全部。</p>
+                </div>
+                <div class="admin-actions">
+                    <button id="reloadBtn" class="secondary-btn" type="button">重新加载</button>
+                    <button id="logoutBtn" class="secondary-btn" type="button">退出登录</button>
+                    <button id="saveAllBtn" class="primary-btn" type="button">保存全部</button>
+                </div>
+            </div>
+
+            <nav class="admin-tabs card" aria-label="后台模块">
+                <button class="admin-tab-btn active" type="button" data-tab="download">下载链接</button>
+                <button class="admin-tab-btn" type="button" data-tab="changelog">更新日志</button>
+                <button class="admin-tab-btn" type="button" data-tab="qa">QA 知识库</button>
+                <button class="admin-tab-btn" type="button" data-tab="categories">QA 分类</button>
+            </nav>
+
+            <section id="downloadPanel" class="card admin-section" data-panel="download">
+                <h2>下载链接</h2>
+                <div class="admin-grid-two">
+                    <div class="admin-form-row">
+                        <label for="downloadVersion">当前版本</label>
+                        <input id="downloadVersion" type="text" placeholder="例如 V1.5.0">
+                    </div>
+                    <div class="admin-form-row">
+                        <label for="quarkUrl">夸克网盘链接</label>
+                        <input id="quarkUrl" type="url" placeholder="https://pan.quark.cn/...">
+                    </div>
+                    <div class="admin-form-row">
+                        <label for="baiduUrl">百度网盘链接</label>
+                        <input id="baiduUrl" type="url" placeholder="https://pan.baidu.com/...">
+                    </div>
+                    <div class="admin-form-row">
+                        <label for="downloadNotice">下载提示</label>
+                        <input id="downloadNotice" type="text" placeholder="下载提示文案">
+                    </div>
+                </div>
+            </section>
+
+            <section id="changelogPanel" class="card admin-section" data-panel="changelog" hidden>
+                <div class="admin-section-head">
+                    <div>
+                        <h2>更新日志</h2>
+                        <p class="section-desc">列表只显示摘要，点击编辑后修改详情。</p>
+                    </div>
+                    <button id="addLogBtn" class="primary-btn" type="button">新增日志</button>
+                </div>
+                <div id="changelogEditor" class="admin-list"></div>
+            </section>
+
+            <section id="qaPanel" class="card admin-section" data-panel="qa" hidden>
+                <div class="admin-section-head">
+                    <div>
+                        <h2>QA 知识库</h2>
+                        <p class="section-desc">支持搜索、分页、编辑和移动到指定位置。</p>
+                    </div>
+                    <button id="addQaBtn" class="primary-btn" type="button">新增问答</button>
+                </div>
+                <div class="admin-grid-three">
+                    <div class="admin-form-row">
+                        <label for="qaSearch">搜索 QA</label>
+                        <input id="qaSearch" type="search" placeholder="输入分类、问题、答案或关键词">
+                    </div>
+                    <div class="admin-form-row">
+                        <label for="qaCategoryFilter">分类筛选</label>
+                        <select id="qaCategoryFilter"></select>
+                    </div>
+                    <div class="admin-form-row">
+                        <label for="qaPageSize">每页数量</label>
+                        <select id="qaPageSize">
+                            <option value="10">10 条</option>
+                            <option value="20" selected>20 条</option>
+                            <option value="50">50 条</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="qaEditor" class="admin-list"></div>
+                <div id="qaPagination" class="admin-pagination"></div>
+            </section>
+
+            <section id="categoriesPanel" class="card admin-section" data-panel="categories" hidden>
+                <div class="admin-section-head">
+                    <div>
+                        <h2>QA 分类</h2>
+                        <p class="section-desc">QA 编辑时会从这里的分类中选择。</p>
+                    </div>
+                    <button id="addCategoryBtn" class="primary-btn" type="button">新增分类</button>
+                </div>
+                <div id="categoryEditor" class="admin-list"></div>
+            </section>
+        </section>
+    </main>
+
+    <div id="adminModalMask" class="admin-editor-modal-mask" hidden>
+        <div class="admin-editor-modal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+            <div class="admin-modal-header">
+                <h2 id="adminModalTitle">编辑</h2>
+                <button id="closeAdminModalBtn" class="modal-close-btn" type="button" aria-label="关闭">×</button>
+            </div>
+            <div id="adminModalBody" class="admin-modal-body"></div>
+            <div class="admin-modal-actions">
+                <button id="cancelAdminModalBtn" class="secondary-btn" type="button">取消</button>
+                <button id="applyAdminModalBtn" class="primary-btn" type="button">应用</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+/* =========================================================
+   更新日志
+   ========================================================= */
+
+.changelog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.changelog-item,
+.changelog-history-item {
+    padding: 14px 16px;
+    border: 1px solid #dbe5ee;
+    border-radius: 14px;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.changelog-item:hover,
+.changelog-history-item:hover {
+    border-color: #93c5fd;
+    background: #f1f7ff;
+}
+
+.changelog-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.changelog-title-row strong {
+    min-width: 0;
+    flex: 1;
+}
+
+.changelog-date {
+    flex: 0 0 auto;
+    color: var(--green-dark);
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.changelog-detail-btn,
+.changelog-all-btn {
+    border: none;
+    border-radius: 999px;
+    background: #eef6ff;
+    color: #2563eb;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.changelog-detail-btn {
+    flex: 0 0 auto;
+    padding: 6px 12px;
+}
+
+.changelog-detail-btn:hover,
+.changelog-all-btn:hover {
+    background: #dbeafe;
+}
+
+.changelog-footer {
+    position: absolute;
+    top: 30px;
+    right: 26px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0;
+}
+
+.changelog-all-btn {
+    padding: 8px 14px;
+}
+
+.changelog-all-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+.changelog-modal {
+    width: min(760px, 94vw);
+}
+
+.changelog-history-modal {
+    width: min(900px, 94vw);
+}
+
+.changelog-modal-body {
+    max-height: calc(86vh - 110px);
+    padding: 24px 30px 30px;
+    overflow: auto;
+}
+
+.changelog-modal-body ul {
+    margin: 0;
+    padding-left: 24px;
+    line-height: 1.9;
+}
+
+.changelog-history-list,
+.changelog-expanded-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.changelog-expanded-item {
+    padding: 18px 20px;
+    border: 1px solid #dbe5ee;
+    border-radius: 16px;
+    background: #f8fafc;
+}
+
+.changelog-expanded-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.changelog-expanded-head h3 {
+    margin: 0;
+    color: #0f2f4d;
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.changelog-expanded-content {
+    padding: 14px 16px;
+    border-left: 4px solid var(--green);
+    border-radius: 12px;
+    background: #ffffff;
+    color: #334155;
+}
+
+.changelog-expanded-content ul {
+    margin: 0;
+    padding-left: 22px;
+    line-height: 1.9;
+}
+
+.changelog-expanded-content li + li {
+    margin-top: 4px;
+}

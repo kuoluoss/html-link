@@ -1,0 +1,202 @@
+/* =========================================================
+   页面头部区域
+   ========================================================= */
+
+.site-header {
+    padding: 34px 24px;
+    background: linear-gradient(135deg, #047857, #0f766e);
+    color: #ffffff;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 36px;
+    max-width: 1400px;
+    min-height: 165px;
+    margin: 0 auto;
+}
+
+.header-copy {
+    min-width: 0;
+}
+
+.site-header h1 {
+    margin: 0 0 8px;
+    font-size: 34px;
+    letter-spacing: 1px;
+}
+
+.site-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.author-card {
+    position: relative;
+    flex: 0 0 min(420px, 34vw);
+    min-height: 128px;
+    padding: 24px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 24px;
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08)),
+        rgba(255, 255, 255, 0.10);
+    color: #ffffff;
+    box-shadow:
+        0 22px 55px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.author-card::before {
+    content: "";
+    position: absolute;
+    top: -70px;
+    right: -70px;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.author-card::after {
+    content: "";
+    position: absolute;
+    left: 28px;
+    bottom: 0;
+    width: 92px;
+    height: 4px;
+    border-radius: 999px 999px 0 0;
+    background: rgba(255, 255, 255, 0.86);
+}
+
+.author-card-label {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-bottom: 12px;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.author-card-name {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: 1px;
+    text-shadow: 0 3px 16px rgba(0, 0, 0, 0.18);
+}
+
+.author-card-desc {
+    position: relative;
+    z-index: 1;
+    margin-top: 8px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   页面主体布局
+   ========================================================= */
+
+.page-container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 26px;
+}
+
+.top-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 26px;
+    margin-bottom: 26px;
+}
+
+.card {
+    position: relative;
+    min-width: 0;
+    max-width: 100%;
+    margin-bottom: 26px;
+    padding: 26px;
+    border: 1px solid #e7edf3;
+    border-radius: 18px;
+    background: var(--card);
+    box-shadow: var(--shadow);
+}
+
+.card * {
+    max-width: 100%;
+}
+
+.top-grid .card {
+    margin-bottom: 0;
+}
+
+.card h2 {
+    margin: 0 0 14px;
+    color: var(--green-dark);
+    font-size: 22px;
+}
+
+.card p {
+    margin-top: 0;
+}
+
+.section-desc {
+    margin-bottom: 18px;
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.divider {
+    height: 1px;
+    margin: 18px 0;
+    border-top: 1px dashed var(--border);
+}
+
+.empty-tip {
+    padding: 18px;
+    border: 1px dashed #cbd5e1;
+    border-radius: 14px;
+    background: #f8fafc;
+    color: #64748b;
+}
+
+
+/* =========================================================
+   访问统计
+   ========================================================= */
+
+.visit-counter-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #d8e5ef;
+    color: #39556b;
+    font-size: 14px;
+}
+
+.visit-counter-box strong {
+    color: #008f6b;
+    font-weight: 700;
+}

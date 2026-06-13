@@ -1,0 +1,96 @@
+/* =========================================================
+   通用弹窗样式
+   专家系统、更新日志、AI助手、下载弹窗共用
+   ========================================================= */
+
+.expert-modal-mask,
+.changelog-modal-mask,
+.chat-modal-mask {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+}
+
+.expert-modal-mask.show,
+.changelog-modal-mask.show,
+.chat-modal-mask.show {
+    display: flex;
+}
+
+.expert-modal,
+.changelog-modal,
+.chat-modal {
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 24px 80px rgba(15, 23, 42, 0.35);
+    animation: modalIn 0.18s ease-out;
+}
+
+.expert-modal,
+.changelog-modal {
+    width: min(1000px, 96vw);
+    max-height: 86vh;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.expert-modal-header,
+.changelog-modal-header,
+.chat-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px 28px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.expert-modal-header h2,
+.changelog-modal-header h2,
+.chat-modal-header h2 {
+    margin: 0 0 6px;
+    color: var(--green-dark);
+}
+
+.expert-modal-header p,
+.changelog-modal-header p,
+.chat-modal-header p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.modal-close-btn {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: #eef2f7;
+    color: #1f2937;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.modal-close-btn:hover {
+    background: #dbe4ef;
+}

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>你好，新蒸程 - 问答与问题诊断</title>
+
+    <!-- 
+        网站作者信息。
+        这里的 content 可以改成你的名字。
+    -->
+    <meta name="author" content="软萌の小正太">
+
+    <!-- 
+        主样式文件。
+        如果你修改了 style.css 但浏览器没变化，可以改一下 v 后面的数字来强制刷新缓存。
+    -->
+    <link rel="stylesheet" href="assets/css/style.css?v=2026060704">
+
+    <!-- 数据文件 -->
+    <script src="data/changelog.js?v=2026060704" defer></script>
+    <script src="data/qa-data.js?v=2026060704" defer></script>
+
+    <!-- 功能脚本 -->
+    <script src="js/config.js?v=2026061301" defer></script>
+    <script src="js/site-data.js?v=2026061404" defer></script>
+    <script src="js/utils.js?v=2026060704" defer></script>
+    <script src="js/changelog-module.js?v=2026060704" defer></script>
+    <script src="js/qa-module.js?v=2026061401" defer></script>
+    <script src="js/chat-module.js?v=2026060704" defer></script>
+
+    <!-- 
+        最新版整合包下载模块。
+        这个文件是本次新增的，负责下载弹窗和下载按钮逻辑。
+    -->
+    <script src="js/download-module.js?v=2026060704" defer></script>
+
+    <script src="js/main.js?v=2026060704" defer></script>
+</head>
+
+<body>
+    <!-- ================= 页面顶部区域 ================= -->
+    <header class="site-header">
+        <div class="header-inner">
+
+            <!-- 左侧：网站标题和说明 -->
+            <div class="header-copy">
+                <h1>你好，新蒸程</h1>
+                <p>整合包常见问题、更新日志、问答搜索与问题诊断工具</p>
+            </div>
+
+            <!-- 
+                右侧：作者信息卡片
+                如果要改作者名字，主要改下面 author-card-name 里的文字。
+            -->
+            <div class="author-card" aria-label="网页作者信息">
+                <div class="author-card-label">网页作者</div>
+                <div class="author-card-name">软萌の小正太</div>
+                <div class="author-card-desc">整理 / 维护 / 页面制作</div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- ================= 页面主体内容 ================= -->
+    <main class="page-container">
+
+        <!-- 顶部两栏：公告 + 更新日志 -->
+        <section class="top-grid">
+            <div class="card">
+                <h2>公告</h2>
+                <p>
+                    本页面用于整理《你好，新蒸程》整合包的常见问题、安装说明、运行问题、玩法说明和更新日志。
+                    <br>
+                    如果搜索不到答案，可以使用AI问答助手快速搜索。
+                </p>
+
+                <div class="divider"></div>
+
+                <!-- 
+                    公告卡片底部区域。
+                    左边是数据来源，右边是最新版整合包下载按钮。
+                    这里复用了 expert-entry 的布局样式，所以不需要额外改 CSS。
+                -->
+                <div class="expert-entry">
+                    <p class="muted">
+                        数据来源：3群群聊记录分析
+                    </p>
+
+                    <!-- 
+                        最新版整合包下载按钮。
+                        点击后会打开下面的 downloadModal 弹窗。
+                        具体逻辑在 js/download-module.js 里。
+                    -->
+                    <div class="expert-actions" id="mainActionBox">
+                        <button id="downloadLatestBtn" class="primary-btn" type="button">
+                            点击下载最新版整合包
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>更新日志</h2>
+
+                <!-- 更新日志由 js/changelog-module.js 自动渲染到这里 -->
+                <div id="changelogBox"></div>
+            </div>
+        </section>
+
+        <!-- 问答搜索区域 -->
+        <section class="card">
+            <h2>问答搜索</h2>
+            <p class="section-desc">可以输入关键词搜索，也可以点击分类查看。</p>
+
+            <div class="search-box">
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="搜索问题，例如：VOXY、崩溃、PCL2、手机、服务器"
+                >
+                <button id="clearSearchBtn" type="button">清空</button>
+            </div>
+
+            <!-- 分类按钮由 js/qa-module.js 自动渲染到这里 -->
+            <div id="categoryBox" class="category-box"></div>
+
+            <!-- 问答列表由 js/qa-module.js 自动渲染到这里 -->
+            <div id="qaList" class="qa-list"></div>
+        </section>
+
+    </main>
+
+    <!-- 
+        ================= 最新版整合包下载弹窗 =================
+
+        这个弹窗复用了你原本的弹窗样式：
+        - expert-modal-mask
+        - changelog-modal
+        - changelog-modal-header
+        - changelog-modal-body
+        - modal-close-btn
+        - primary-btn
+        - secondary-btn
+
+        所以这次不需要额外修改 style.css。
+    -->
+    <div id="downloadModalMask" class="expert-modal-mask" aria-hidden="true">
+        <div class="changelog-modal" role="dialog" aria-modal="true" aria-labelledby="downloadModalTitle">
+
+            <div class="changelog-modal-header">
+                <div>
+                    <h2 id="downloadModalTitle">下载最新版整合包</h2>
+                    <p id="downloadVersionText">当前版本：V1.3.0 客户端 / 服务端</p>
+                </div>
+
+                <button id="downloadModalCloseBtn" class="modal-close-btn" type="button" aria-label="关闭下载弹窗">
+                    ×
+                </button>
+            </div>
+
+            <div class="changelog-modal-body">
+                <!-- 下载提示 -->
+                <div class="expert-note">
+                    <strong>下载提示：</strong>
+                    点击按钮跳转网盘下载，如果夸克点进去没文件，可以使用备用的百度网盘
+                    <br>
+                </div>
+
+                <div class="divider"></div>
+
+                <p class="section-desc">
+                    请选择你需要下载的版本：
+                </p>
+
+                <!-- 
+                    两个下载按钮。
+                    实际下载链接在 js/download-module.js 里统一维护。
+                -->
+                <div class="expert-actions" style="justify-content: flex-start;">
+                    <button id="downloadClientBtn" class="secondary-btn" type="button">
+                        夸克网盘
+                    </button>
+
+                    <button id="downloadServerBtn" class="secondary-btn" type="button">
+                        备用百度网盘
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
